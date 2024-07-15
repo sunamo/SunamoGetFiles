@@ -1,6 +1,6 @@
-namespace SunamoGetFiles;
-
 using DirectoryMs = System.IO.Directory;
+
+namespace SunamoGetFiles;
 
 public class FSGetFiles
 {
@@ -43,7 +43,7 @@ public class FSGetFiles
         {
             getFilesArgs = new GetFilesArgs();
         }
-        var folders = SHSplit.Split(folder2, AllStrings.sc);
+        var folders = SHSplit.SplitMore(folder2, AllStrings.sc);
         for (int i = 0; i < folders.Count; i++)
         {
             folders[i] = folders[i].TrimEnd(AllChars.bs) + AllStrings.bs;
@@ -379,7 +379,7 @@ Dictionary<string, string>
         {
             a = new GetFilesArgs();
         }
-        var folders = SHSplit.Split(folder2, AllStrings.sc);
+        var folders = SHSplit.SplitMore(folder2, AllStrings.sc);
         //if (CA.PostfixIfNotEnding != null)
         //{
         //    CA.PostfixIfNotEnding(AllStrings.bs, folders);
@@ -405,7 +405,7 @@ Dictionary<string, string>
                 //if (mask.Contains(AllStrings.sc))
                 //{
                 //    //list = new List<string>();
-                //    var masces = SHSplit.Split(mask, AllStrings.sc);
+                //    var masces = SHSplit.SplitMore(mask, AllStrings.sc);
                 //    foreach (var item in masces)
                 //    {
                 //        var masc = item;
@@ -481,11 +481,11 @@ Dictionary<string, string>
         List<string> masks = new List<string>();
         if (masc.Contains(c))
         {
-            masks.AddRange(SHSplit.Split(masc, c));
+            masks.AddRange(SHSplit.SplitMore(masc, c));
         }
         else if (masc.Contains(sc))
         {
-            masks.AddRange(SHSplit.Split(masc, sc));
+            masks.AddRange(SHSplit.SplitMore(masc, sc));
         }
         else
         {
