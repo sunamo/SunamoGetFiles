@@ -27,25 +27,25 @@ internal class FS
     {
 
 
-        ComputerSizeUnits unit = ComputerSizeUnits.B;
+        ComputerSizeUnitsGetFiles unit = ComputerSizeUnitsGetFiles.B;
         if (size > NumConsts.kB)
         {
-            unit = ComputerSizeUnits.KB;
+            unit = ComputerSizeUnitsGetFiles.KB;
             size /= NumConsts.kB;
         }
         if (size > NumConsts.kB)
         {
-            unit = ComputerSizeUnits.MB;
+            unit = ComputerSizeUnitsGetFiles.MB;
             size /= NumConsts.kB;
         }
         if (size > NumConsts.kB)
         {
-            unit = ComputerSizeUnits.GB;
+            unit = ComputerSizeUnitsGetFiles.GB;
             size /= NumConsts.kB;
         }
         if (size > NumConsts.kB)
         {
-            unit = ComputerSizeUnits.TB;
+            unit = ComputerSizeUnitsGetFiles.TB;
             size /= NumConsts.kB;
         }
 
@@ -156,7 +156,7 @@ internal class FS
         while (true)
         {
             nad = Path.GetDirectoryName(nad);
-            
+
             if (Directory.Exists(nad))
             {
                 break;
