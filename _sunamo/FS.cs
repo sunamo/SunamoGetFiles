@@ -1,5 +1,5 @@
 
 namespace SunamoGetFiles._sunamo;
-public class FS
+internal class FS
 {
 }
