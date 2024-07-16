@@ -22,4 +22,7 @@
   <ItemGroup>
     <None Include="readme.md" Pack="True" PackagePath="." />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_sunamo\SunamoString\" />
+  </ItemGroup>
 </Project>

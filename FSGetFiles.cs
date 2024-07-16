@@ -1,6 +1,6 @@
-using DirectoryMs = System.IO.Directory;
 
 namespace SunamoGetFiles;
+using DirectoryMs = System.IO.Directory;
 
 public class FSGetFiles
 {
