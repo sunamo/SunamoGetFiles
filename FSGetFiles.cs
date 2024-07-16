@@ -504,7 +504,7 @@ Dictionary<string, string>
         {
             foreach (var item2 in masks)
             {
-                //if(SH.ContainsOnlyCase())
+                //if(SHSH.ContainsOnlyCase())
                 var item = FS.AllIncludeIfOnlyLetters(item2);
                 try
                 {
@@ -676,7 +676,7 @@ List<string>
             await
 #endif
             File.ReadAllTextAsync(item);
-            if (mustContains.Where(d => c.Contains(d)).Count() == mcl) /*CA.ContainsAnyFromElement(c, mustContains).Count == mcl*/
+            if (mustContains.Where(d => c.Contains(d)).Count() == mcl) /*CASHSH.ContainsAnyFromElement(c, mustContains).Count == mcl*/
             {
                 ls.Add(item);
             }

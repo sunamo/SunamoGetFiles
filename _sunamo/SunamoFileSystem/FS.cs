@@ -1,4 +1,5 @@
 namespace SunamoGetFiles._sunamo.SunamoFileSystem;
+
 internal class FS
 {
     internal static string ReplaceInvalidFileNameChars(string filename, params char[] ch)
@@ -93,7 +94,7 @@ internal class FS
         //var ext = Path.GetExtension(ext2);
         //var fn = Path.GetFileNameWithoutExtension(ext2);
         //// isContained must be true, in BundleTsFile if false masc will be .ts, not *.ts and won't found any file
-        //var isContained = AllExtensionsHelper.IsContained(ext);
+        //var isContained = AllExtensionsHelperSH.IsContained(ext);
         //ComplexInfoString cis = new ComplexInfoString(fn);
 
         ////Already tried
