@@ -1,4 +1,4 @@
-//namespace SunamoGetFiles._sunamo.SunamoFileSystem;
+namespace SunamoGetFiles._sunamo.SunamoFileSystem;
 
 internal class FS
 {

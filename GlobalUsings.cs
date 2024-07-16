@@ -23,3 +23,5 @@ global using System.Diagnostics;
 global using System.Net;
 global using System.Runtime.CompilerServices;
 global using System.Threading.Tasks;
+global using SunamoGetFiles._sunamo;
+global using SunamoGetFiles._sunamo.SunamoFileSystem;
