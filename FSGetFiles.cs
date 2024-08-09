@@ -532,8 +532,8 @@ Dictionary<string, string>
     {
         var files = new List<string>();
         foreach (var item in folders)
-        foreach (var ext in exts)
-            files.AddRange(GetFiles(item, FS.MascFromExtension(ext), so, a));
+            foreach (var ext in exts)
+                files.AddRange(GetFiles(item, FS.MascFromExtension(ext), so, a));
         return files;
     }
 
