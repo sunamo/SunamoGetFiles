@@ -1,11 +1,24 @@
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
+
 internal class FSGetFolders
 {
     internal static void GetFoldersEveryFolder(List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
     {
         try
         {
-            var d = Directory.GetDirectories(folder, v, SearchOption.TopDirectoryOnly);
+            var d = Directory.GetDirectories(folder, v, SearchOption.TopDirectoryOnly).ToList();
+
+            if (e.IgnoreFoldersWithName != null)
+            {
+                for (int i = d.Count - 1; i >= 0; i--)
+                {
+                    if (e.IgnoreFoldersWithName.Contains(FS.GetFileName(d[i])))
+                    {
+                        d.RemoveAt(i);
+                    }
+                }
+            }
+
             folders.AddRange(d);
             foreach (var item in d)
             {
@@ -24,6 +37,5 @@ internal class FSGetFolders
                 //return new List<string>();
             }
         }
-
     }
 }
