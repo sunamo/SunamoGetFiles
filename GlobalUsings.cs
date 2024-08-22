@@ -13,7 +13,6 @@ global using SunamoGetFiles._sunamo.SunamoGetFolders;
 global using SunamoGetFiles._sunamo.SunamoStringParts;
 global using SunamoGetFiles._sunamo.SunamoStringSplit;
 global using SunamoGetFiles._sunamo.SunamoValues;
-
 global using SunamoGetFiles._sunamo.SunamoExceptions.OnlyInSE;
 global using SunamoGetFiles._sunamo.SunamoGetFolders.Args;
 global using SunamoGetFiles._sunamo.SunamoLang.SunamoI18N;
