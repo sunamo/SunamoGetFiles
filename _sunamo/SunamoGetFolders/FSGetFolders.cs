@@ -6,9 +6,10 @@ internal class FSGetFolders
 {
     internal static void GetFoldersEveryFolder(List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
     {
-
-        ArgumentNullException.ThrowIfNull(e.Logger, "e.Logger");
-
+        if (e.Logger == null)
+        {
+            ArgumentNullException.ThrowIfNull(e.Logger, "e.Logger");
+        }
 
         try
         {
