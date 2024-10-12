@@ -1,4 +1,6 @@
+
 namespace SunamoGetFiles._sunamo.SunamoGetFolders.Args;
+using Microsoft.Extensions.Logging;
 
 internal class GetFoldersEveryFolderArgs : GetFilesArgs
 {
@@ -12,6 +14,7 @@ internal class GetFoldersEveryFolderArgs : GetFilesArgs
     //internal bool writeToDebugEveryLoadedFolder = false;
     internal bool throwEx = false;
 
+
     internal GetFoldersEveryFolderArgs(GetFilesEveryFolderArgs e)
     {
         //_trimA1AndLeadingBs = e._trimA1AndLeadingBs;
@@ -19,6 +22,8 @@ internal class GetFoldersEveryFolderArgs : GetFilesArgs
         //dIsJunctionPoint = e.dIsJunctionPoint;
         throwEx = e.throwEx;
         IgnoreFoldersWithName = e.IgnoreFoldersWithName;
+        Logger = e.Logger;
+
     }
 
     internal GetFoldersEveryFolderArgs()

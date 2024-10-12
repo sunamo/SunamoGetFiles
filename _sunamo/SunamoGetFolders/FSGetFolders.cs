@@ -1,9 +1,15 @@
+
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
+using Microsoft.Extensions.Logging;
 
 internal class FSGetFolders
 {
     internal static void GetFoldersEveryFolder(List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
     {
+
+        ArgumentNullException.ThrowIfNull(e.Logger, "e.Logger");
+
+
         try
         {
             var d = Directory.GetDirectories(folder, v, SearchOption.TopDirectoryOnly).ToList();
@@ -27,12 +33,15 @@ internal class FSGetFolders
         }
         catch (Exception ex)
         {
+
             if (e.throwEx)
             {
                 throw ex;
             }
             else
             {
+
+                e.Logger.LogError(Exceptions.TextOfExceptions(ex));
                 // do nothing
                 //return new List<string>();
             }

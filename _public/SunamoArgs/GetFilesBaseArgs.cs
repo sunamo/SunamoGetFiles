@@ -1,10 +1,11 @@
+
 namespace SunamoGetFiles._public.SunamoArgs;
+using Microsoft.Extensions.Logging;
 
-
-
-public class GetFilesBaseArgs 
+public class GetFilesBaseArgs
 {
     public bool followJunctions = false;
     public Func<string, bool> dIsJunctionPoint = null;
     public bool _trimA1AndLeadingBs = false;
+    public ILogger Logger { get; set; }
 }
