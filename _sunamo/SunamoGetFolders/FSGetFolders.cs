@@ -1,4 +1,3 @@
-
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
 using Microsoft.Extensions.Logging;
 

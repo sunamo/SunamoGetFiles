@@ -14,4 +14,29 @@ public class GetFilesEveryFolderArgs : GetFilesBaseArgs
     public bool usePb = false;
     public bool usePbTime = false;
     public List<string> IgnoreFoldersWithName { get; set; }
+
+    private List<string> codeFolders = ["obj", "node_modules", ".git", ".vs"];
+    public bool ExcludeCodeFolders
+    {
+        set
+        {
+            if (value)
+            {
+                foreach (var item in codeFolders)
+                {
+                    if (!IgnoreFoldersWithName.Contains(item))
+                    {
+                        IgnoreFoldersWithName.Add(item);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in codeFolders)
+                {
+                    IgnoreFoldersWithName.Remove(item);
+                }
+            }
+        }
+    }
 }
