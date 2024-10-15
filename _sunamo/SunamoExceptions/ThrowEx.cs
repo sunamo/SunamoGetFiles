@@ -1,6 +1,10 @@
 namespace SunamoGetFiles._sunamo.SunamoExceptions;
 public partial class ThrowEx
 {
+    public static bool KeyAlreadyExists<T, U>(Dictionary<T, U> dict, T key, string nameOfDict)
+    {
+        return ThrowIsNotNull(Exceptions.KeyAlreadyExists(FullNameOfExecutedCode(), key, nameOfDict));
+    }
     public static bool NotContains(string text, params string[] shouldContains)
     {
         return ThrowIsNotNull(Exceptions.NotContains(FullNameOfExecutedCode(), text, shouldContains));
@@ -43,7 +47,7 @@ public partial class ThrowEx
     {
         return ThrowIsNotNull(Exceptions.WrongExtension(FullNameOfExecutedCode(), path, ext));
     }
-    public static bool DuplicatedElements(string nameOfVariable, IList<string> d, string message = Consts.se)
+    public static bool DuplicatedElements(string nameOfVariable, IList<string> d, string message = "")
     {
         return ThrowIsNotNull(Exceptions.DuplicatedElements(FullNameOfExecutedCode(), nameOfVariable, d, message));
     }
@@ -89,7 +93,7 @@ public partial class ThrowEx
     {
         return Custom("Calling sync method in async app");
     }
-    public static bool ExcAsArg(Exception ex, string message = Consts.se)
+    public static bool ExcAsArg(Exception ex, string message = "")
     {
         return ThrowIsNotNull(Exceptions.ExcAsArg, ex, message);
     }
@@ -169,9 +173,9 @@ public partial class ThrowEx
         return ThrowIsNotNull(Exceptions.DifferentCountInLists(FullNameOfExecutedCode(), namefc, countfc, namesc,
         countsc));
     }
-    public static bool Custom(string message, bool reallyThrow = true, string v2 = Consts.se)
+    public static bool Custom(string message, bool reallyThrow = true, string v2 = "")
     {
-        var joined = string.Join(Consts.se, message, v2);
+        var joined = string.Join("", message, v2);
         var str = Exceptions.Custom(FullNameOfExecutedCode(), joined);
         return ThrowIsNotNull(str, reallyThrow);
     }
@@ -187,7 +191,7 @@ public partial class ThrowEx
     {
         return ThrowIsNotNull(Exceptions.IsNullOrWhitespace(FullNameOfExecutedCode(), argName, argValue));
     }
-    public static bool ArgumentOutOfRangeException(string paramName, string message = Consts.se)
+    public static bool ArgumentOutOfRangeException(string paramName, string message = "")
     {
         return ThrowIsNotNull(Exceptions.ArgumentOutOfRangeException(FullNameOfExecutedCode(), paramName, message));
     }
@@ -279,7 +283,7 @@ public partial class ThrowEx
     {
         return ThrowIsNotNull(Exceptions.DoesntHaveRequiredType(FullNameOfExecutedCode(), variableName));
     }
-    public static bool MoreThanOneElement(string listName, int count, string moreInfo = Consts.se)
+    public static bool MoreThanOneElement(string listName, int count, string moreInfo = "")
     {
         var fn = FullNameOfExecutedCode();
         var exc = Exceptions.MoreThanOneElement(fn, listName, count, moreInfo);
@@ -328,7 +332,7 @@ public partial class ThrowEx
     {
         return ThrowIsNotNull(Exceptions.WasNotKeysHandler(FullNameOfExecutedCode(), name, keysHandler));
     }
-    public static bool IsEmpty(IEnumerable folders, string colName, string additionalMessage = Consts.stringEmpty)
+    public static bool IsEmpty(IEnumerable folders, string colName, string additionalMessage = "")
     {
         return ThrowIsNotNull(Exceptions.IsEmpty(FullNameOfExecutedCode(), folders, colName, additionalMessage));
     }

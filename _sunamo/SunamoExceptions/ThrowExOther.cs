@@ -34,7 +34,7 @@ partial class ThrowEx
             var t = type.GetType();
             typeFullName = t.FullName ?? "Type cannot be get via type.GetType()";
         }
-        return string.Concat(typeFullName, AllStrings.dot, methodName);
+        return string.Concat(typeFullName, ".", methodName);
     }
     public static bool ThrowIsNotNull(string? exception, bool reallyThrow = true)
     {
