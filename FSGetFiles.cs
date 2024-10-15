@@ -203,7 +203,7 @@ public class FSGetFiles
             }
             catch (Exception ex)
             {
-                if (e.throwEx) ThrowEx.DummyNotThrow(ex);
+                if (e.throwEx) ThrowEx.Custom(ex);
 
                 // Not throw exception, it's probably Access denied on Documents and Settings etc
                 //ThrowEx.FileSystemException( ex);

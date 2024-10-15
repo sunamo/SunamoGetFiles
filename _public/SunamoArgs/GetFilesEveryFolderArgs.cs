@@ -13,9 +13,9 @@ public class GetFilesEveryFolderArgs : GetFilesBaseArgs
     public Action<string> UpdateTbPb = null;
     public bool usePb = false;
     public bool usePbTime = false;
-    public List<string> IgnoreFoldersWithName { get; set; }
+    public List<string> IgnoreFoldersWithName { get; set; } = new();
 
-    private List<string> codeFolders = ["obj", "node_modules", ".git", ".vs"];
+    private readonly List<string> codeFolders = ["obj", "bin", "node_modules", ".git", ".vs"];
     public bool ExcludeCodeFolders
     {
         set

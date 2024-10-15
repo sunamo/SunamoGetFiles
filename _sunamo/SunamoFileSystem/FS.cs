@@ -18,6 +18,25 @@ internal class FS
         return item;
     }
 
+    public static bool IsWindowsPathFormat(string argValue)
+    {
+        if (string.IsNullOrWhiteSpace(argValue)) return false;
+
+        var badFormat = false;
+
+        if (argValue.Length < 3) return badFormat;
+
+        if (!char.IsLetter(argValue[0])) badFormat = true;
+
+        if (char.IsLetter(argValue[1])) badFormat = true;
+
+        if (argValue.Length > 2)
+            if (argValue[1] != '\\' && argValue[2] != '\\')
+                badFormat = true;
+
+        return !badFormat;
+    }
+
     internal static string GetNormalizedExtension(string filename)
     {
         return NormalizeExtension(filename);
@@ -144,7 +163,7 @@ internal class FS
     internal static void CreateFoldersPsysicallyUnlessThere(string nad)
     {
         ThrowEx.IsNullOrEmpty("nad", nad);
-        ThrowEx.IsNotWindowsPathFormat("nad", nad);
+        ThrowEx.IsNotWindowsPathFormat("nad", nad, OperatingSystem.IsWindows(), FS.IsWindowsPathFormat);
         if (Directory.Exists(nad))
         {
             return;

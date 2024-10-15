@@ -1,6 +1,4 @@
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
-using Microsoft.Extensions.Logging;
-
 internal class FSGetFolders
 {
     internal static void GetFoldersEveryFolder(List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
@@ -9,11 +7,9 @@ internal class FSGetFolders
         {
             ArgumentNullException.ThrowIfNull(e.Logger, "e.Logger");
         }
-
         try
         {
             var d = Directory.GetDirectories(folder, v, SearchOption.TopDirectoryOnly).ToList();
-
             if (e.IgnoreFoldersWithName != null)
             {
                 for (int i = d.Count - 1; i >= 0; i--)
@@ -24,7 +20,6 @@ internal class FSGetFolders
                     }
                 }
             }
-
             folders.AddRange(d);
             foreach (var item in d)
             {
@@ -33,15 +28,13 @@ internal class FSGetFolders
         }
         catch (Exception ex)
         {
-
             if (e.throwEx)
             {
                 throw ex;
             }
             else
             {
-
-                e.Logger.LogError(Exceptions.TextOfExceptions(ex));
+                e.Logger.LogError(message: ex.Message);
                 // do nothing
                 //return new List<string>();
             }
