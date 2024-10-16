@@ -22,5 +22,5 @@ internal class GetFoldersEveryFolderArgs : GetFilesArgs
     internal GetFoldersEveryFolderArgs()
     {
     }
-    public List<string> IgnoreFoldersWithName { get; set; } = null;
+    internal List<string> IgnoreFoldersWithName { get; set; } = null;
 }

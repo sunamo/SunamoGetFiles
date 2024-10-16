@@ -11,7 +11,7 @@ global using SunamoGetFiles._sunamo.SunamoCollectionsChangeContent;
 global using SunamoGetFiles._sunamo.SunamoGetFolders;
 global using SunamoGetFiles._sunamo.SunamoStringParts;
 global using SunamoGetFiles._sunamo.SunamoStringSplit;
-global using SunamoGetFiles._sunamo.SunamoValues;
+global using SunamoGetFiles;
 global using SunamoGetFiles._sunamo.SunamoGetFolders.Args;
 global using SunamoGetFiles._sunamo.SunamoLang.SunamoI18N;
 global using SunamoGetFiles._sunamo.SunamoValues.Constants;

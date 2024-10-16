@@ -1,5 +1,4 @@
 namespace SunamoGetFiles._sunamo.SunamoFileSystem;
-
 internal class FS
 {
     internal static string ReplaceInvalidFileNameChars(string filename, params char[] ch)
@@ -18,7 +17,7 @@ internal class FS
         return item;
     }
 
-    public static bool IsWindowsPathFormat(string argValue)
+    internal static bool IsWindowsPathFormat(string argValue)
     {
         if (string.IsNullOrWhiteSpace(argValue)) return false;
 
@@ -86,7 +85,7 @@ internal class FS
 
     }
 
-    internal static string MascFromExtension(string ext2 = AllStrings.asterisk)
+    internal static string MascFromExtension(string ext2 = "*")
     {
         if (char.IsLetterOrDigit(ext2[0]))
         {
@@ -97,7 +96,7 @@ internal class FS
         {
             ext2 = "*" + ext2;
         }
-        if (!ext2.StartsWith("*.") && ext2.StartsWith(AllStrings.dot))
+        if (!ext2.StartsWith("*.") && ext2.StartsWith("."))
         {
             ext2 = "*." + ext2;
         }
@@ -135,7 +134,7 @@ internal class FS
         //    //    return ext2;
         //    //}
 
-        //    var vr = AllStrings.asterisk + AllStrings.dot + ext2.TrimStart(AllChars.dot);
+        //    var vr = "*" + "." + ext2.TrimStart('.');
         //    return vr;
         //}
 
@@ -145,7 +144,7 @@ internal class FS
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static string NormalizeExtension(string item)
     {
-        return AllStrings.dot + item.TrimStart(AllChars.dot);
+        return "." + item.TrimStart('.');
     }
 
     internal static void NormalizeExtensions(List<string> extension)
