@@ -22,3 +22,4 @@ global using SunamoGetFiles._sunamo;
 global using SunamoGetFiles._sunamo.SunamoFileSystem;
 global using Microsoft.Extensions.Logging;
 global using SunamoGetFiles._sunamo.SunamoExceptions;
+global using System.Diagnostics.CodeAnalysis;
