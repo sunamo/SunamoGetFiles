@@ -17,7 +17,6 @@ internal class GetFoldersEveryFolderArgs : GetFilesArgs
         //dIsJunctionPoint = e.dIsJunctionPoint;
         throwEx = e.throwEx;
         IgnoreFoldersWithName = e.IgnoreFoldersWithName;
-        Logger = e.Logger;
     }
     internal GetFoldersEveryFolderArgs()
     {

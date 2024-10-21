@@ -1,11 +1,11 @@
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
 internal class FSGetFolders
 {
-    internal static void GetFoldersEveryFolder(List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
+    internal static void GetFoldersEveryFolder(ILogger logger, List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
     {
-        if (e.Logger == null)
+        if (logger == null)
         {
-            ArgumentNullException.ThrowIfNull(e.Logger, "e.Logger");
+            ArgumentNullException.ThrowIfNull(logger, "logger");
         }
         try
         {
@@ -23,7 +23,7 @@ internal class FSGetFolders
             folders.AddRange(d);
             foreach (var item in d)
             {
-                GetFoldersEveryFolder(folders, item, v, e);
+                GetFoldersEveryFolder(logger, folders, item, v, e);
             }
         }
         catch (Exception ex)
@@ -34,7 +34,7 @@ internal class FSGetFolders
             }
             else
             {
-                e.Logger.LogError(message: ex.Message);
+                logger.LogError(message: ex.Message);
                 // do nothing
                 //return new List<string>();
             }

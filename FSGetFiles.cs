@@ -18,10 +18,10 @@ public class FSGetFiles
         return new List<string>();
     }
 
-    public static List<string> GetFilesEveryFolder(string folder, string mask, bool rek,
+    public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool rek,
         GetFilesEveryFolderArgs e = null)
     {
-        return GetFilesEveryFolder(folder, mask, rek ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, e);
+        return GetFilesEveryFolder(logger, folder, mask, rek ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, e);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class FSGetFiles
     /// <param name="folder"></param>
     /// <param name="mask"></param>
     /// <param name="searchOption"></param>
-    public static async Task<List<string>> GetFilesAsync(string folder2, string mask, SearchOption searchOption,
+    public static async Task<List<string>> GetFilesAsync(ILogger logger, string folder2, string mask, SearchOption searchOption,
         GetFilesArgs getFilesArgs = null)
     {
         if (!Directory.Exists(folder2) && !folder2.Contains(";"))
@@ -50,7 +50,7 @@ public class FSGetFiles
             }
             else
             {
-                return GetFilesMoreMasc(folder, mask, searchOption);
+                return GetFilesMoreMasc(logger, folder, mask, searchOption);
             }
 
         //CAChangeContent.ChangeContent0(null, list, d => SH.FirstCharUpper(d));
@@ -100,7 +100,7 @@ public class FSGetFiles
     /// <param name="ask"></param>
     /// <param name="searchOption"></param>
     /// <param name="_trimA1"></param>
-    public static List<string> GetFilesEveryFolder(string folder, string mask, SearchOption searchOption,
+    public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, SearchOption searchOption,
         GetFilesEveryFolderArgs e = null)
     {
 #if DEBUG
@@ -129,7 +129,7 @@ public class FSGetFiles
         }
 
         dirs = new List<string>();
-        FSGetFolders.GetFoldersEveryFolder(dirs, folder, "*", new GetFoldersEveryFolderArgs(e));
+        FSGetFolders.GetFoldersEveryFolder(logger, dirs, folder, "*", new GetFoldersEveryFolderArgs(e));
 #if DEBUG
         //int before = dirs.Count;
 #endif
@@ -242,18 +242,18 @@ public class FSGetFiles
         return list;
     }
 
-    public static List<string> GetFilesWithoutArgs(string folderPath, string masc, bool? rec)
+    public static List<string> GetFilesWithoutArgs(ILogger logger, string folderPath, string masc, bool? rec)
     {
-        return GetFiles(folderPath, masc, rec);
+        return GetFiles(logger, folderPath, masc, rec);
     }
 
-    public static List<string> GetFiles(string folderPath, string masc, bool? rec, GetFilesArgs a = null)
+    public static List<string> GetFiles(ILogger logger, string folderPath, string masc, bool? rec, GetFilesArgs a = null)
     {
         var so = SearchOption.TopDirectoryOnly;
         var b = rec.Value;
         if (b) so = SearchOption.AllDirectories;
         return
-            GetFiles(folderPath, masc, so, a);
+            GetFiles(logger, folderPath, masc, so, a);
     }
 
     public static List<string> GetFiles(string folderPath, string masc)
@@ -301,7 +301,7 @@ Dictionary<string, string>
     /// <param name="folder"></param>
     /// <param name="mask"></param>
     /// <param name="searchOption"></param>
-    public static List<string> GetFiles(string folder2, string mask, SearchOption searchOption, GetFilesArgs a = null)
+    public static List<string> GetFiles(ILogger logger, string folder2, string mask, SearchOption searchOption, GetFilesArgs a = null)
     {
 #if DEBUG
         if (folder2.TrimEnd('\\') == @"\monoConsoleSqlClient")
@@ -328,7 +328,7 @@ Dictionary<string, string>
                 //Task.Run<>(async () => await FunctionAsync());
                 //var r = Task.Run<List<string>>(async () => await GetFilesMoreMascAsync(folder, mask, searchOption));
                 //return r.Result;
-                var l2 = GetFilesMoreMasc(folder, mask, searchOption,
+                var l2 = GetFilesMoreMasc(logger, folder, mask, searchOption,
                     new GetFilesMoreMascArgs { followJunctions = a.followJunctions });
                 list.AddRange(l2);
 
@@ -389,7 +389,7 @@ Dictionary<string, string>
         return sizes;
     }
 
-    public static List<string> GetFilesMoreMasc(string path, string masc, SearchOption searchOption,
+    public static List<string> GetFilesMoreMasc(ILogger logger, string path, string masc, SearchOption searchOption,
         GetFilesMoreMascArgs e = null)
     {
         if (e == null) e = new GetFilesMoreMascArgs();
@@ -527,22 +527,22 @@ Dictionary<string, string>
         return FS.GetSizeInAutoString(size);
     }
 
-    public static List<string> AllFilesInFolders(IList<string> folders, IList<string> exts, SearchOption so,
+    public static List<string> AllFilesInFolders(ILogger logger, IList<string> folders, IList<string> exts, SearchOption so,
         GetFilesArgs a = null)
     {
         var files = new List<string>();
         foreach (var item in folders)
             foreach (var ext in exts)
-                files.AddRange(GetFiles(item, FS.MascFromExtension(ext), so, a));
+                files.AddRange(GetFiles(logger, item, FS.MascFromExtension(ext), so, a));
         return files;
     }
 
-    public static List<string> GetFilesWithoutNodeModules(string item, string masc, bool? rec, GetFilesArgs a = null)
+    public static List<string> GetFilesWithoutNodeModules(ILogger logger, string item, string masc, bool? rec, GetFilesArgs a = null)
     {
         if (a == null) a = new GetFilesArgs();
         a.excludeFromLocationsCOntains.Add("de_mo");
         a.excludeFromLocationsCOntains = a.excludeFromLocationsCOntains.Distinct().ToList();
-        return GetFiles(item, masc, rec, a);
+        return GetFiles(logger, item, masc, rec, a);
     }
 
     public static
@@ -551,7 +551,7 @@ Dictionary<string, string>
 #else
 List<string>
 #endif
-        FilesWhichContainsAll(object sunamo, string masc, IList<string> mustContains)
+        FilesWhichContainsAll(ILogger logger, object sunamo, string masc, IList<string> mustContains)
     {
         var mcl = mustContains.Count();
         var ls = new List<string>();
@@ -559,7 +559,7 @@ List<string>
         if (sunamo is IList<string>)
             f = (IList<string>)sunamo;
         else
-            f = GetFiles(sunamo.ToString(), masc, true);
+            f = GetFiles(logger, sunamo.ToString(), masc, true);
         foreach (var item in f)
         {
             var c =
