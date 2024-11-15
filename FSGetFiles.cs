@@ -4,7 +4,7 @@ using DirectoryMs = Directory;
 
 public class FSGetFiles
 {
-    public static List<string> GetFiles(string v1, string v2, SearchOption topDirectoryOnly)
+    public static List<string> GetFiles(ILogger logger, string v1, string v2, SearchOption topDirectoryOnly)
     {
         try
         {
@@ -13,6 +13,7 @@ public class FSGetFiles
         catch (Exception ex)
         {
             // todo zapsat do logu nebo vrátit seznam - chyba přístupu, neexistuje, ...
+            logger.LogError(Exceptions.TextOfExceptions(ex));
         }
 
         return new List<string>();
@@ -192,7 +193,7 @@ public class FSGetFiles
                 //TF.WaitD();
 #endif
                 //d.Clear();
-                var f = GetFiles(item, mask, SearchOption.TopDirectoryOnly);
+                var f = GetFiles(logger, item, mask, SearchOption.TopDirectoryOnly);
                 d.AddRange(f);
                 if (e.getNullIfThereIsMoreThanXFiles != -1)
                     if (d.Count > e.getNullIfThereIsMoreThanXFiles)
@@ -256,9 +257,9 @@ public class FSGetFiles
             GetFiles(logger, folderPath, masc, so, a);
     }
 
-    public static List<string> GetFiles(string folderPath, string masc)
+    public static List<string> GetFiles(ILogger logger, string folderPath, string masc)
     {
-        return GetFiles(folderPath, masc, SearchOption.TopDirectoryOnly);
+        return GetFiles(logger, folderPath, masc, SearchOption.TopDirectoryOnly);
     }
 
     public static
@@ -267,10 +268,10 @@ public class FSGetFiles
 #else
 Dictionary<string, string>
 #endif
-        GetFilesWithContentInDictionary(string item, string v, SearchOption allDirectories)
+        GetFilesWithContentInDictionary(ILogger logger, string item, string v, SearchOption allDirectories)
     {
         var r = new Dictionary<string, string>();
-        var f = GetFiles(item, v, allDirectories);
+        var f = GetFiles(logger, item, v, allDirectories);
         foreach (var item2 in f)
             r.Add(item2,
 #if ASYNC
@@ -285,10 +286,10 @@ Dictionary<string, string>
     /// </summary>
     /// <param name="item2"></param>
     /// <param name="exts"></param>
-    public static List<string> GetFilesOfExtensions(string item2, SearchOption so, params string[] exts)
+    public static List<string> GetFilesOfExtensions(ILogger logger, string item2, SearchOption so, params string[] exts)
     {
         var vr = new List<string>();
-        foreach (var item in exts) vr.AddRange(GetFiles(item2, "*" + item, so));
+        foreach (var item in exts) vr.AddRange(GetFiles(logger, item2, "*" + item, so));
         return vr;
     }
 
@@ -382,10 +383,21 @@ Dictionary<string, string>
         return list;
     }
 
-    public static List<long> GetFilesSizes(List<string> f)
+    public static List<long> GetFilesSizes(ILogger logger, List<string> f)
     {
         var sizes = new List<long>();
-        foreach (var item in f) sizes.Add(new FileInfo(item).Length);
+        foreach (var item in f)
+        {
+            try
+            {
+                sizes.Add(new FileInfo(item).Length);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(Exceptions.TextOfExceptions(ex));
+            }
+
+        }
         return sizes;
     }
 
@@ -435,7 +447,7 @@ Dictionary<string, string>
                 var item = FS.AllIncludeIfOnlyLetters(item2);
                 try
                 {
-                    result.AddRange(GetFiles(path, item, searchOption));
+                    result.AddRange(GetFiles(logger, path, item, searchOption));
                 }
                 catch (Exception ex)
                 {
@@ -453,7 +465,7 @@ Dictionary<string, string>
             foreach (var item2 in masks)
             {
                 var item = FS.AllIncludeIfOnlyLetters(item2);
-                result.AddRange(GetFiles(path, item, searchOption));
+                result.AddRange(GetFiles(logger, path, item, searchOption));
             }
 
         if (result.Count > 0) result[0] = SH.FirstCharUpper(result[0]);
@@ -466,7 +478,7 @@ Dictionary<string, string>
         return result;
     }
 
-    public static List<string> GetFiles(string p, bool rek)
+    public static List<string> GetFiles(ILogger logger, string p, bool rek)
     {
         return Directory.GetFiles(p, "*.*", rek ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList();
     }
@@ -510,9 +522,9 @@ Dictionary<string, string>
     ///     No recursive, all extension
     /// </summary>
     /// <param name="path"></param>
-    public static List<string> GetFiles(string path)
+    public static List<string> GetFiles(ILogger logger, string path)
     {
-        return GetFiles(path, "*", SearchOption.TopDirectoryOnly);
+        return GetFiles(logger, path, "*", SearchOption.TopDirectoryOnly);
     }
 
     public static string GetFilesSize(List<string> winrarFiles, ComputerSizeUnitsGetFiles s)
@@ -587,9 +599,9 @@ List<string>
     /// </summary>
     /// <param name="folder"></param>
     /// <param name="fileExt"></param>
-    public static List<string> FilesOfExtension(string folder, string fileExt)
+    public static List<string> FilesOfExtension(ILogger logger, string folder, string fileExt)
     {
-        return GetFiles(folder, "*." + fileExt, SearchOption.TopDirectoryOnly);
+        return GetFiles(logger, folder, "*." + fileExt, SearchOption.TopDirectoryOnly);
     }
 
     public static List<string> FilesOfExtensionsArray(string folder, List<string> extension)
@@ -612,13 +624,13 @@ List<string>
     /// </summary>
     /// <param name="folderFrom"></param>
     /// <param name="extensions"></param>
-    public static Dictionary<string, List<string>> FilesOfExtensions(string folderFrom, params string[] extensions)
+    public static Dictionary<string, List<string>> FilesOfExtensions(ILogger logger, string folderFrom, params string[] extensions)
     {
         var dict = new Dictionary<string, List<string>>();
         foreach (var item in extensions)
         {
             var ext = FS.NormalizeExtension(item);
-            var files = GetFiles(folderFrom, "*" + ext, SearchOption.AllDirectories);
+            var files = GetFiles(logger, folderFrom, "*" + ext, SearchOption.AllDirectories);
             if (files.Count != 0) dict.Add(ext, files);
         }
 
