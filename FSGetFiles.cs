@@ -124,7 +124,7 @@ public class FSGetFiles
         //{
         if (e.usePbTime)
         {
-            var m = sess.i18n(XlfKeys.Loading) + " " + sess.i18n(XlfKeys.FoldersTree) + "...";
+            var m = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
             e.InsertPbTime(60);
             e.UpdateTbPb(m);
         }
@@ -156,7 +156,7 @@ public class FSGetFiles
         //}
         //catch (Exception ex)
         //{
-        //    throw new Exception(sess.i18n(XlfKeys.GetFilesWithPath)+": " + folder);
+        //    throw new Exception(Translate.FromKey(XlfKeys.GetFilesWithPath)+": " + folder);
         //}
 
         #endregion
@@ -171,7 +171,7 @@ public class FSGetFiles
         //}
         if (e.usePb)
         {
-            var m = sess.i18n(XlfKeys.Loading) + " " + sess.i18n(XlfKeys.FilesTree) + "...";
+            var m = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FilesTree) + "...";
             e.InsertPb(dirs.Count);
             e.UpdateTbPb(m);
         }
