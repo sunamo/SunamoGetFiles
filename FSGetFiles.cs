@@ -4,11 +4,11 @@ using DirectoryMs = Directory;
 
 public class FSGetFiles
 {
-    public static List<string> GetFiles(ILogger logger, string v1, string v2, SearchOption topDirectoryOnly)
+    public static List<string> GetFiles(ILogger logger, string folder, string mask, SearchOption searchOption)
     {
         try
         {
-            return DirectoryMs.GetFiles(v1, v2, topDirectoryOnly).ToList();
+            return DirectoryMs.GetFiles(folder, mask, searchOption).ToList();
         }
         catch (Exception ex)
         {
@@ -18,6 +18,8 @@ public class FSGetFiles
 
         return new List<string>();
     }
+
+
 
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool rek,
         GetFilesEveryFolderArgs e = null)
