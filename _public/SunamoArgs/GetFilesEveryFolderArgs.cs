@@ -16,7 +16,7 @@ public class GetFilesEveryFolderArgs : GetFilesBaseArgs
     public List<string> IgnoreFoldersWithName { get; set; } = new();
 
     private readonly List<string> codeFolders = ["obj", "bin", "node_modules", ".git", ".vs"];
-    public bool ExcludeCodeFolders
+    public bool ExcludeGeneratedCodeFolders
     {
         set
         {
