@@ -3,7 +3,7 @@ namespace SunamoGetFiles._sunamo.SunamoCollectionsChangeContent;
 
 internal class CAChangeContent
 {
-    private static void RemoveNullOrEmpty(ChangeContentArgsGetFiles a, List<string> files_in)
+    private static void RemoveNullOrEmpty(ChangeContentArgsGetFiles? a, List<string> files_in)
     {
         if (a != null)
         {
@@ -31,7 +31,7 @@ internal class CAChangeContent
     /// </summary>
     /// <param name="files_in"></param>
     /// <param name="func"></param>
-    internal static List<string> ChangeContent0(ChangeContentArgsGetFiles a, List<string> files_in, Func<string, string> func)
+    internal static List<string> ChangeContent0(ChangeContentArgsGetFiles? a, List<string> files_in, Func<string, string> func)
     {
         for (int i = 0; i < files_in.Count; i++)
         {
