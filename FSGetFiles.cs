@@ -106,6 +106,11 @@ public class FSGetFiles
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, SearchOption searchOption,
         GetFilesEveryFolderArgs e = null)
     {
+        if (mask.Contains(";"))
+        {
+            ThrowEx.Custom("More extensions is not supported by .NET! Use FilesOfExtensions() instead!");
+        }
+
 #if DEBUG
         if (folder == @"D:\_Test\EveryLine\EveryLine\SearchCodeElementsUC\")
         {
@@ -191,9 +196,13 @@ public class FSGetFiles
         {
             try
             {
-#if ASYNC
-                //TF.WaitD();
+#if DEBUG
+                if (item == @"E:\vs\Projects\sunamo.net\Clients\src\packages\vue-shared")
+                {
+
+                }
 #endif
+
                 //d.Clear();
                 var f = GetFiles(logger, item, mask, SearchOption.TopDirectoryOnly);
                 d.AddRange(f);
@@ -211,6 +220,14 @@ public class FSGetFiles
                 // Not throw exception, it's probably Access denied on Documents and Settings etc
                 //ThrowEx.FileSystemException( ex);
             }
+
+#if DEBUG
+            if (d.Any())
+            {
+
+            }
+#endif
+
 
             if (e.usePb) e.DoneOnePercent();
 #if DEBUG
@@ -625,14 +642,14 @@ List<string>
     ///     In case zero files of ext wont be included in dict
     /// </summary>
     /// <param name="folderFrom"></param>
-    /// <param name="extensions"></param>
-    public static Dictionary<string, List<string>> FilesOfExtensions(ILogger logger, string folderFrom, params string[] extensions)
+    /// <param name="extensionsWithDot"></param>
+    public static Dictionary<string, List<string>> FilesOfExtensions(ILogger logger, string folderFrom, GetFilesEveryFolderArgs a, params string[] extensionsWithDot)
     {
         var dict = new Dictionary<string, List<string>>();
-        foreach (var item in extensions)
+        foreach (var item in extensionsWithDot)
         {
             var ext = FS.NormalizeExtension(item);
-            var files = GetFiles(logger, folderFrom, "*" + ext, SearchOption.AllDirectories);
+            var files = GetFilesEveryFolder(logger, folderFrom, "*" + ext, SearchOption.AllDirectories, a);
             if (files.Count != 0) dict.Add(ext, files);
         }
 
