@@ -111,11 +111,7 @@ public class FSGetFiles
             ThrowEx.Custom("More extensions is not supported by .NET! Use FilesOfExtensions() instead!");
         }
 
-#if DEBUG
-        if (folder == @"D:\_Test\EveryLine\EveryLine\SearchCodeElementsUC\")
-        {
-        }
-#endif
+
         if (e == null) e = new GetFilesEveryFolderArgs();
         // TODO: některé soubory vrací vícekrát. toto je workaround než zjistím proč
         // TODO: je důležité se toho zbavit co nejdříve protože při načítání to zbytečně zpomaluje
@@ -196,12 +192,7 @@ public class FSGetFiles
         {
             try
             {
-#if DEBUG
-                if (item == @"E:\vs\Projects\sunamo.net\Clients\src\packages\vue-shared")
-                {
 
-                }
-#endif
 
                 //d.Clear();
                 var f = GetFiles(logger, item, mask, SearchOption.TopDirectoryOnly);
