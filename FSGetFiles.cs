@@ -108,7 +108,18 @@ public class FSGetFiles
     {
         if (mask.Contains(";"))
         {
-            ThrowEx.Custom("More extensions is not supported by .NET! Use FilesOfExtensions() instead!");
+            //ThrowEx.Custom("More extensions is not supported by .NET! Use FilesOfExtensions() instead!");
+
+            var masces = SHSplit.SplitMore(mask, ";");
+
+            List<string> result = new List<string>();
+
+            foreach (var item in masces)
+            {
+                result.AddRange(GetFilesEveryFolder(logger, folder, item, searchOption, e));
+            }
+
+            return result;
         }
 
 #if DEBUG
