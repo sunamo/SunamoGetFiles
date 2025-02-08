@@ -23,6 +23,7 @@ internal class CAChangeContent
             }
         }
     }
+
     /// <summary>
     /// Direct edit
     /// If not every element fullfil pattern, is good to remove null (or values returned if cant be changed) from result
@@ -40,8 +41,8 @@ internal class CAChangeContent
         RemoveNullOrEmpty(a, files_in);
         return files_in;
     }
-                #region Vem obojí
-        #endregion
+    #region Vem obojí
+    #endregion
     #region ChangeContent for easy copy
-                #endregion
+    #endregion
 }

@@ -1,7 +1,28 @@
 namespace SunamoGetFiles._public.SunamoArgs;
 
-public class GetFilesEveryFolderArgs : GetFilesBaseArgs
+public class GetFilesEveryFolderArgs //: GetFilesBaseArgs
 {
+    #region Base
+    public bool followJunctions = false;
+    public Func<string, bool> dIsJunctionPoint = null;
+    public bool _trimA1AndLeadingBs = false;
+    #endregion
+
+    public bool _trimExt = false;
+    public List<string> excludeFromLocationsCOntains = new List<string>();
+    public bool dontIncludeNewest = false;
+
+
+
+    public Action<List<string>> excludeWithMethod = null;
+    public bool byDateOfLastModifiedAsc = false;
+    public Func<string, DateTime?> LastModifiedFromFn;
+
+
+
+    public bool useMascFromExtension = false;
+    public bool wildcard = false;
+
     public Action Done;
     public Action DoneOnePercent;
     public Func<string, bool> FilterFoundedFiles;
