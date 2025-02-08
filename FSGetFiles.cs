@@ -37,7 +37,7 @@ public class FSGetFiles
     /// <param name="mask"></param>
     /// <param name="searchOption"></param>
     public static async Task<List<string>> GetFilesAsync(ILogger logger, string folder2, string mask, SearchOption searchOption,
-        GetFilesArgs getFilesArgs = null)
+        GetFilesArgs? getFilesArgs = null)
     {
         if (!Directory.Exists(folder2) && !folder2.Contains(";"))
             //ThisApp.Warning(folder2 + "does not exists");
