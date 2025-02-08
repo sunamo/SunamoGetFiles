@@ -15,7 +15,7 @@ public partial class FSGetFiles
     /// <param name="searchOption"></param>
     /// <param name="_trimA1"></param>
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask = "*", SearchOption searchOption = SearchOption.AllDirectories,
-        GetFilesEveryFolderArgs e = null)
+        GetFilesEveryFolderArgs? e = null)
     {
         if (mask.Contains(";"))
         {
