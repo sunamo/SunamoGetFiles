@@ -2,7 +2,7 @@ namespace SunamoGetFiles;
 public partial class FSGetFiles
 {
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool rek,
-        GetFilesEveryFolderArgs e = null)
+        GetFilesEveryFolderArgs? e = null)
     {
         return GetFilesEveryFolder(logger, folder, mask, rek ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, e);
     }
