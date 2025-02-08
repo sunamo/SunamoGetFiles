@@ -4,7 +4,7 @@ using DirectoryMs = Directory;
 
 public class FSGetFiles
 {
-    public static List<string> GetFiles(ILogger logger, string folder, string mask, SearchOption searchOption)
+    public static List<string> GetFiles(ILogger logger, string folder, string mask = "*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         try
         {
@@ -125,6 +125,7 @@ public class FSGetFiles
         // There is not exc handle needed, its slowly then
         //try
         //{
+
         if (e.usePbTime)
         {
             var m = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
