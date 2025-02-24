@@ -1,5 +1,5 @@
 namespace SunamoGetFiles._sunamo.SunamoGetFolders.Args;
-internal class GetFoldersEveryFolderArgs : GetFilesArgs
+internal class GetFoldersEveryFolderArgs //: GetFilesArgs
 {
     ///// <summary>
     ///// Auto call WithEndSlash

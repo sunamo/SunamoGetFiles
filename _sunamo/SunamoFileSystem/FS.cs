@@ -17,24 +17,6 @@ internal class FS
         return item;
     }
 
-    internal static bool IsWindowsPathFormat(string argValue)
-    {
-        if (string.IsNullOrWhiteSpace(argValue)) return false;
-
-        var badFormat = false;
-
-        if (argValue.Length < 3) return badFormat;
-
-        if (!char.IsLetter(argValue[0])) badFormat = true;
-
-        if (char.IsLetter(argValue[1])) badFormat = true;
-
-        if (argValue.Length > 2)
-            if (argValue[1] != '\\' && argValue[2] != '\\')
-                badFormat = true;
-
-        return !badFormat;
-    }
 
     internal static string GetNormalizedExtension(string filename)
     {
@@ -155,43 +137,6 @@ internal class FS
         }
     }
 
-    internal static void CreateUpfoldersPsysicallyUnlessThere(string nad)
-    {
-        CreateFoldersPsysicallyUnlessThere(Path.GetDirectoryName(nad));
-    }
-    internal static void CreateFoldersPsysicallyUnlessThere(string nad)
-    {
-        ThrowEx.IsNullOrEmpty("nad", nad);
-        ThrowEx.IsNotWindowsPathFormat("nad", nad, OperatingSystem.IsWindows(), FS.IsWindowsPathFormat);
-        if (Directory.Exists(nad))
-        {
-            return;
-        }
-        List<string> slozkyKVytvoreni = new List<string>
-        {
-            nad
-        };
-        while (true)
-        {
-            nad = Path.GetDirectoryName(nad);
-
-            if (Directory.Exists(nad))
-            {
-                break;
-            }
-            string kopia = nad;
-            slozkyKVytvoreni.Add(kopia);
-        }
-        slozkyKVytvoreni.Reverse();
-        foreach (string item in slozkyKVytvoreni)
-        {
-            string folder = item;
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-        }
-    }
 
     internal static string GetFileName(string v)
     {
