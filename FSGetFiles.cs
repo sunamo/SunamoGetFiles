@@ -32,8 +32,113 @@ public partial class FSGetFiles
 
         if (mask.Contains(";"))
         {
+<<<<<<< HEAD
+            //ThrowEx.Custom("More extensions is not supported by .NET! Use FilesOfExtensions() instead!");
+
+            var masces = SHSplit.SplitMore(mask, ";");
+
+            List<string> result = new List<string>();
+
+            foreach (var item in masces)
+            {
+                result.AddRange(GetFilesEveryFolder(logger, folder, item, searchOption, e));
+            }
+
+            return result;
+        }
+
+#if DEBUG
+        if (folder == @"D:\_Test\EveryLine\EveryLine\SearchCodeElementsUC\")
+        {
+        }
+#endif
+        if (e == null) e = new GetFilesEveryFolderArgs();
+        // TODO: některé soubory vrací vícekrát. toto je workaround než zjistím proč
+        // TODO: je důležité se toho zbavit co nejdříve protože při načítání to zbytečně zpomaluje
+        var list = new List<string>();
+        List<string> dirs = null;
+        var measureTime = false;
+        //if (measureTime)
+        //{
+        //    //StopwatchStatic.Start();
+        //}
+        // There is not exc handle needed, its slowly then
+        //try
+        //{
+        if (e.usePbTime)
+        {
+            var m = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
+            e.InsertPbTime(60);
+            e.UpdateTbPb(m);
+        }
+
+        dirs = new List<string>();
+        FSGetFolders.GetFoldersEveryFolder(logger, dirs, folder, "*", new GetFoldersEveryFolderArgs(e));
+#if DEBUG
+        //int before = dirs.Count;
+#endif
+        if (e.FilterFoundedFolders != null)
+        {
+            string si = null;
+            for (var i = dirs.Count - 1; i >= 0; i--)
+            {
+                si = dirs[i];
+                //if (si.Contains(@"\standard\.git"))
+                //{
+                //}
+                if (!e.FilterFoundedFolders.Invoke(si)) dirs.RemoveAt(i);
+            }
+        }
+#if DEBUG
+        //int after = dirs.Count;
+#endif
+
+        #region MyRegion
+
+        //ClipboardHelper.SetLines(dirs);
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw new Exception(Translate.FromKey(XlfKeys.GetFilesWithPath)+": " + folder);
+        //}
+
+        #endregion
+
+        //if (measureTime)
+        //{
+        //    StopwatchStatic.StopAndPrintElapsed("GetFoldersEveryFolder");
+        //}
+        //if (measureTime)
+        //{
+        //    StopwatchStatic.Start();
+        //}
+        if (e.usePb)
+        {
+            var m = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FilesTree) + "...";
+            e.InsertPb(dirs.Count);
+            e.UpdateTbPb(m);
+        }
+
+        var d = new List<string>();
+        //Není třeba, již volám dole e.Done(); / e.DonePartially();
+        //IProgressBarHelper pbh = null;
+        //if (e.progressBarHelper != null)
+        //{
+        //    pbh = e.progressBarHelper.CreateInstance(e.pb, dirs.Count, e.pb);
+        //}
+        dirs.Insert(0, folder);
+
+        foreach (var item in dirs)
+        {
+            try
+            {
+#if DEBUG
+                if (item == @"E:\vs\Projects\sunamo.net\Clients\src\packages\vue-shared")
+                {
+=======
             ThrowEx.Custom("More extensions is not supported by .NET! Use FilesOfExtensions() instead!");
         }
+>>>>>>> refs/remotes/origin/master
 
         if (e == null) e = new GetFilesEveryFolderArgs();
         // TODO: některé soubory vrací vícekrát. toto je workaround než zjistím proč
