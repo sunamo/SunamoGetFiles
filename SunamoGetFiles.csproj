@@ -3,11 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-<<<<<<< HEAD
-    <Version>25.2.12.1</Version>
-=======
-    <Version>25.2.8.3</Version>
->>>>>>> refs/remotes/origin/master
+    <Version>25.2.28.1</Version>
     <Description>Retrieving files with automatic exception catching and further processing after</Description>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
@@ -16,11 +12,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-<<<<<<< HEAD
-    <PackageReleaseNotes>Fixed exception</PackageReleaseNotes>
-=======
-    <PackageReleaseNotes>Simplify API</PackageReleaseNotes>
->>>>>>> refs/remotes/origin/master
+    <PackageReleaseNotes>Fix git diffs</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
