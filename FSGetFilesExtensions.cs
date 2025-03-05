@@ -1,11 +1,5 @@
 namespace SunamoGetFiles;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 partial class FSGetFiles
 {
     /// <summary>
@@ -23,9 +17,6 @@ partial class FSGetFiles
             var files = GetFilesEveryFolder(logger, folderFrom, "*" + ext, SearchOption.AllDirectories, a);
             if (files.Count != 0) dict.Add(ext, files);
         }
-
         return dict;
     }
-
-
 }
