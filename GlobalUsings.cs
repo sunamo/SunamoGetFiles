@@ -24,6 +24,5 @@ global using Microsoft.Extensions.Logging;
 global using SunamoGetFiles._sunamo.SunamoExceptions;
 global using System.Diagnostics.CodeAnalysis;
 global using SunamoGetFiles;
-
 global using ILogger = Microsoft.Extensions.Logging.ILogger;
 global using NullLogger = Microsoft.Extensions.Logging.Abstractions.NullLogger;
