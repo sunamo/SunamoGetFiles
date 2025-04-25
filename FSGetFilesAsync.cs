@@ -1,4 +1,5 @@
-﻿namespace SunamoGetFiles;
+namespace SunamoGetFiles;
+
 partial class FSGetFiles
 {
     public static List<long> GetFilesSizes(ILogger logger, List<string> f)
@@ -35,7 +36,7 @@ partial class FSGetFiles
             //ThisApp.Warning(folder2 + "does not exists");
             return new List<string>();
         if (getFilesArgs == null) getFilesArgs = new GetFilesEveryFolderArgs();
-        var folders = SHSplit.SplitMore(folder2, ";");
+        var folders = SHSplit.Split(folder2, ";");
         for (var i = 0; i < folders.Count; i++) folders[i] = folders[i].TrimEnd('\\') + "\"";
         //CA.PostfixIfNotEnding("\"", folders);
         var list = new List<string>();

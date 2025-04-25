@@ -1,4 +1,5 @@
-﻿namespace SunamoGetFiles;
+namespace SunamoGetFiles;
+
 internal class FSGetFilesCommented
 {
     //public static List<string> GetFilesWithoutNodeModules(ILogger logger, string item, string masc, bool? rec, GetFilesArgs a = null)
@@ -46,9 +47,9 @@ internal class FSGetFilesCommented
     //        var result = new List<string>();
     //        var masks = new List<string>();
     //        if (masc.Contains(c))
-    //            masks.AddRange(SHSplit.SplitMore(masc, c));
+    //            masks.AddRange(SHSplit.Split(masc, c));
     //        else if (masc.Contains(sc))
-    //            masks.AddRange(SHSplit.SplitMore(masc, sc));
+    //            masks.AddRange(SHSplit.Split(masc, sc));
     //        else
     //            masks.Add(masc);
 

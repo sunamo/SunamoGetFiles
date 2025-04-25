@@ -1,4 +1,5 @@
 namespace SunamoGetFiles;
+
 public partial class FSGetFiles
 {
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool rek,
@@ -32,7 +33,7 @@ public partial class FSGetFiles
 
         if (mask.Contains(";"))
         {
-            var masces = SHSplit.SplitMore(mask, ";");
+            var masces = SHSplit.Split(mask, ";");
 
             List<string> result = new List<string>();
 

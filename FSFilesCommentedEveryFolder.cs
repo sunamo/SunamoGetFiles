@@ -1,4 +1,5 @@
-﻿namespace SunamoGetFiles;
+namespace SunamoGetFiles;
+
 internal class FSFilesCommentedEveryFolder
 {
     //    /// <summary>
@@ -24,7 +25,7 @@ internal class FSFilesCommentedEveryFolder
     //            //ThisApp.Warning(folder2 + "does not exists");
     //            return new List<string>();
     //        if (a == null) a = new GetFilesArgs();
-    //        var folders = SHSplit.SplitMore(folder2, ";");
+    //        var folders = SHSplit.Split(folder2, ";");
     //        //if (CA.PostfixIfNotEnding != null)
     //        //{
     //        //    CA.PostfixIfNotEnding("\"", folders);
@@ -49,7 +50,7 @@ internal class FSFilesCommentedEveryFolder
     //                //if (mask.Contains(";"))
     //                //{
     //                //    //list = new List<string>();
-    //                //    var masces = SHSplit.SplitMore(mask, ";");
+    //                //    var masces = SHSplit.Split(mask, ";");
     //                //    foreach (var item in masces)
     //                //    {
     //                //        var masc = item;
