@@ -187,7 +187,7 @@ public partial class FSGetFiles
         if (e._trimA1AndLeadingBs)
             //list = CAChangeContent.ChangeContent0(null, list, d3 => d3 = d3.Replace(folder, "").TrimStart('\\'));
             for (var i = 0; i < list.Count; i++)
-                list[i] = list[i].Replace(folder, "").TrimStart('\\');
+                list[i] = list[i].Replace(folder, "").TrimStart('\\').TrimEnd('\\');
         return list;
     }
 }
