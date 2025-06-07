@@ -25,7 +25,7 @@ partial class FSGetFiles
         return foundedFiles;
     }
 
-    public static string GetFilesSize(List<string> winrarFiles, ComputerSizeUnitsGetFiles s)
+    public static string GetFilesSize(List<string> winrarFiles)
     {
         long size = 0;
         foreach (var item in winrarFiles)

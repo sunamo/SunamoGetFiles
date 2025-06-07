@@ -70,6 +70,7 @@ public partial class FSGetFiles
             e.UpdateTbPb(m);
         }
 
+
         dirs = new List<string>();
         if (searchOption == SearchOption.AllDirectories)
         {
