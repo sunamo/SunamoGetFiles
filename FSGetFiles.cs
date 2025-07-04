@@ -70,8 +70,12 @@ public partial class FSGetFiles
             e.UpdateTbPb(m);
         }
 
+
         dirs = new List<string>();
-        FSGetFolders.GetFoldersEveryFolder(logger, dirs, folder, "*", new GetFoldersEveryFolderArgs(e));
+        if (searchOption == SearchOption.AllDirectories)
+        {
+            FSGetFolders.GetFoldersEveryFolder(logger, dirs, folder, "*", new GetFoldersEveryFolderArgs(e));
+        }
 #if DEBUG
         //int before = dirs.Count;
 #endif

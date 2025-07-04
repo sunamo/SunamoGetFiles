@@ -1,7 +1,7 @@
 namespace SunamoGetFiles._sunamo.SunamoFileSystem;
 internal class FS
 {
-    internal static string ReplaceInvalidFileNameChars(string filename, params char[] ch)
+    internal static string ReplaceInvalidFileNameChars(string filename)
     {
         return string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
     }
