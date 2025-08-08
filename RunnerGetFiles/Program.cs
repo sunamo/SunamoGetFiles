@@ -1,10 +1,10 @@
-namespace RunnerGetFiles;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SunamoCl.SunamoCmd;
 using SunamoGetFiles.Tests;
+
+namespace RunnerGetFiles;
 
 internal class Program
 {
@@ -13,10 +13,10 @@ internal class Program
 
     static void Main()
     {
-        MainAsync().GetAwaiter().GetResult();
+        MainAsync(args).GetAwaiter().GetResult();
     }
 
-    static async Task MainAsync()
+    static async Task MainAsync(string[] args)
     {
         var appName = "RunnerGetFiles";
 
