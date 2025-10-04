@@ -1,10 +1,12 @@
-namespace SunamoGetFiles;
+﻿namespace SunamoGetFiles;
 
 partial class FSGetFiles
 {
     /// <summary>
     ///     Keys returns with normalized ext
     ///     In case zero files of ext wont be included in dict
+    ///     
+    /// Pokud chci získat všechny extensions ve složce, je tu metoda FS.AllExtensionsInFolders
     /// </summary>
     /// <param name="folderFrom"></param>
     /// <param name="extensionsWithDot"></param>
