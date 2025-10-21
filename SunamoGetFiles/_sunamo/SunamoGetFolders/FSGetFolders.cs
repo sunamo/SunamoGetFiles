@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
 internal class FSGetFolders
 {
@@ -9,19 +12,19 @@ internal class FSGetFolders
         }
         try
         {
-            var d = Directory.GetDirectories(folder, v, SearchOption.TopDirectoryOnly).ToList();
+            var data = Directory.GetDirectories(folder, v, SearchOption.TopDirectoryOnly).ToList();
             if (e.IgnoreFoldersWithName != null)
             {
-                for (int i = d.Count - 1; i >= 0; i--)
+                for (int i = data.Count - 1; i >= 0; i--)
                 {
-                    if (e.IgnoreFoldersWithName.Contains(FS.GetFileName(d[i])))
+                    if (e.IgnoreFoldersWithName.Contains(FS.GetFileName(data[i])))
                     {
-                        d.RemoveAt(i);
+                        data.RemoveAt(i);
                     }
                 }
             }
-            folders.AddRange(d);
-            foreach (var item in d)
+            folders.AddRange(data);
+            foreach (var item in data)
             {
                 GetFoldersEveryFolder(logger, folders, item, v, e);
             }

@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoGetFiles.Tests;
 
 using Microsoft.Extensions.Logging;
@@ -11,7 +14,7 @@ public class SHGetFilesTests
 
     public void GetFoldersEveryFolderTest()
     {
-        //var d = FSGetFiles.GetFilesEveryFolder(logger, @"E:\vs\Projects\_WhenNeedToEditAllCorruptedSlns\CommandsToAllCsFiles.Cmd\", "*.cs", true);
+        //var data = FSGetFiles.GetFilesEveryFolder(logger, @"E:\vs\Projects\_WhenNeedToEditAllCorruptedSlns\CommandsToAllCsFiles.Cmd\", "*.cs", true);
 
         var f = FSGetFiles.GetFilesEveryFolder(LoggerDummy.Instance, @"E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoExceptions\", "*.cs", true, new SunamoGetFiles._public.SunamoArgs.GetFilesEveryFolderArgs { ExcludeGeneratedCodeFolders = true });
 
@@ -23,26 +26,26 @@ public class SHGetFilesTests
     {
         List<List<string>> r = new List<List<string>>();
 
-        var d = DriveInfo.GetDrives();
-        foreach (var item in d)
+        var data = DriveInfo.GetDrives();
+        foreach (var item in data)
         {
             r.Add(FSGetFiles.GetFilesEveryFolder(LoggerDummy.Instance, item.RootDirectory.FullName, "*", SearchOption.AllDirectories));
         }
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
         foreach (var item in r)
         {
             //foreach (var item2 in item)
             //{
-            //    sb.AppendLine(item2);
+            //    stringBuilder.AppendLine(item2);
             //}
-            sb.AppendLine(item.Count.ToString());
-            sb.AppendLine();
-            sb.AppendLine();
+            stringBuilder.AppendLine(item.Count.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine();
         }
 
-        File.WriteAllText(@"D:\a.txt", sb.ToString());
+        File.WriteAllText(@"D:\a.txt", stringBuilder.ToString());
     }
 
     ILogger logger = TestLogger.Instance;
@@ -50,9 +53,9 @@ public class SHGetFilesTests
     [Fact]
     public void GetFilesEveryFolderTest()
     {
-        //var d = FSGetFiles.GetFilesEveryFolder(logger, TestLogger.Instance, @"E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoThreading\", "Sess.cs", true, new GetFilesEveryFolderArgs { ExcludeGeneratedCodeFolders = true });
+        //var data = FSGetFiles.GetFilesEveryFolder(logger, TestLogger.Instance, @"E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoThreading\", "Sess.cs", true, new GetFilesEveryFolderArgs { ExcludeGeneratedCodeFolders = true });
 
-        //var d = FSGetFiles.GetFilesEveryFolder(logger, @"E:\vs\Projects\sunamo.net\Clients\src", "*.js;*.cjs", true ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, new GetFilesEveryFolderArgs { ExcludeGeneratedCodeFolders = true });
+        //var data = FSGetFiles.GetFilesEveryFolder(logger, @"E:\vs\Projects\sunamo.net\Clients\src", "*.js;*.cjs", true ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, new GetFilesEveryFolderArgs { ExcludeGeneratedCodeFolders = true });
 
         //const string pnusSrc = @"C:\Proj_Net\usys-siesta\src\";
         //var f = FSGetFiles.GetFilesEveryFolder(logger, pnusSrc, "*.ts;*.tsx", true, new() { ExcludeGeneratedCodeFolders = true });

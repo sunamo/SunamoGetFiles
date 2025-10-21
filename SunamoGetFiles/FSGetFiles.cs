@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoGetFiles;
 
 public partial class FSGetFiles
@@ -65,9 +68,9 @@ public partial class FSGetFiles
         //{
         if (e.usePbTime)
         {
-            var m = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
+            var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
             e.InsertPbTime(60);
-            e.UpdateTbPb(m);
+            e.UpdateTbPb(message);
         }
 
 
@@ -116,12 +119,12 @@ public partial class FSGetFiles
         //}
         if (e.usePb)
         {
-            var m = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FilesTree) + "...";
+            var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FilesTree) + "...";
             e.InsertPb(dirs.Count);
-            e.UpdateTbPb(m);
+            e.UpdateTbPb(message);
         }
 
-        var d = new List<string>();
+        var data = new List<string>();
         //Není třeba, již volám dole e.Done(); / e.DonePartially();
         //IProgressBarHelper pbh = null;
         //if (e.progressBarHelper != null)
@@ -136,11 +139,11 @@ public partial class FSGetFiles
             {
 
 
-                //d.Clear();
+                //data.Clear();
                 var f = Directory.GetFiles(item, mask, SearchOption.TopDirectoryOnly);
-                d.AddRange(f);
+                data.AddRange(f);
                 if (e.getNullIfThereIsMoreThanXFiles != -1)
-                    if (d.Count > e.getNullIfThereIsMoreThanXFiles)
+                    if (data.Count > e.getNullIfThereIsMoreThanXFiles)
                     {
                         if (e.usePb) e.Done();
                         return null;
@@ -155,7 +158,7 @@ public partial class FSGetFiles
             }
 
 #if DEBUG
-            if (d.Any())
+            if (data.Any())
             {
 
             }
@@ -164,20 +167,20 @@ public partial class FSGetFiles
 
             if (e.usePb) e.DoneOnePercent();
 #if DEBUG
-            //before = d.Count;
+            //before = data.Count;
 #endif
             if (e.FilterFoundedFiles != null)
-                for (var i = d.Count - 1; i >= 0; i--)
-                    if (!e.FilterFoundedFiles(d[i]))
-                        d.RemoveAt(i);
+                for (var i = data.Count - 1; i >= 0; i--)
+                    if (!e.FilterFoundedFiles(data[i]))
+                        data.RemoveAt(i);
 #if DEBUG
-            //after = d.Count;
+            //after = data.Count;
             //if (before != 0 && after == 0)
             //{
             //}
 #endif
-            list.AddRange(d);
-            d.Clear();
+            list.AddRange(data);
+            data.Clear();
         }
 
         list = list.Distinct().ToList();

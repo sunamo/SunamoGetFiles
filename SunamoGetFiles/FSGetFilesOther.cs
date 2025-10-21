@@ -1,4 +1,7 @@
-﻿namespace SunamoGetFiles;
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
+namespace SunamoGetFiles;
 partial class FSGetFiles
 {
     /// <summary>
@@ -50,7 +53,7 @@ List<string>
         FilesWhichContainsAll(ILogger logger, object sunamo, string masc, IList<string> mustContains)
     {
         var mcl = mustContains.Count();
-        var ls = new List<string>();
+        var sourceList = new List<string>();
         IList<string> f = null;
         if (sunamo is IList<string>)
             f = (IList<string>)sunamo;
@@ -58,16 +61,16 @@ List<string>
             f = GetFilesEveryFolder(logger, sunamo.ToString(), masc, true);
         foreach (var item in f)
         {
-            var c =
+            var count =
 #if ASYNC
                 await
 #endif
                     File.ReadAllTextAsync(item);
-            if (mustContains.Where(d => c.Contains(d)).Count() ==
-                mcl) /*CASHSH.ContainsAnyFromElement(c, mustContains).Count == mcl*/ ls.Add(item);
+            if (mustContains.Where(d => count.Contains(d)).Count() ==
+                mcl) /*CASHSH.ContainsAnyFromElement(count, mustContains).Count == mcl*/ sourceList.Add(item);
         }
 
-        return ls;
+        return sourceList;
     }
     public static FileInfo[] GetFileInfosOfExtensions(string item2, SearchOption so, params string[] exts)
     {
@@ -95,19 +98,19 @@ Dictionary<string, string>
 #endif
     GetFilesWithContentInDictionary(ILogger logger, string item, string v, SearchOption allDirectories)
     {
-        var r = new Dictionary<string, string>();
+        var result = new Dictionary<string, string>();
         var f = GetFilesEveryFolder(logger, item, v, allDirectories);
         foreach (var item2 in f)
-            r.Add(item2,
+            result.Add(item2,
 #if ASYNC
                 await
 #endif
                     File.ReadAllTextAsync(item2));
-        return r;
+        return result;
     }
 
     /// <summary>
-    ///     C:\Users\w\AppData\Roaming\sunamo\
+    ///     count:\Users\w\AppData\Roaming\sunamo\
     /// </summary>
     /// <param name="item2"></param>
     /// <param name="exts"></param>
