@@ -11,7 +11,7 @@ internal class Program
     static ServiceCollection Services = new();
     static ILogger Logger = NullLogger.Instance;
 
-    static void Main()
+    static void Main(string[] args)
     {
         MainAsync(args).GetAwaiter().GetResult();
     }
