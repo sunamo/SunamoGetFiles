@@ -1,6 +1,7 @@
+namespace SunamoGetFiles._sunamo.SunamoGetFolders.Args;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoGetFiles._sunamo.SunamoGetFolders.Args;
 internal class GetFoldersEveryFolderArgs //: GetFilesArgs
 {
     ///// <summary>

@@ -1,6 +1,7 @@
+namespace SunamoGetFiles._sunamo;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoGetFiles._sunamo;
 internal class XlfKeys
 {
     internal const string Loading = "Loading";

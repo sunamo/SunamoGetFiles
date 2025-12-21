@@ -1,6 +1,7 @@
+namespace SunamoGetFiles._sunamo.SunamoFileSystem;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoGetFiles._sunamo.SunamoFileSystem;
 internal class FS
 {
     internal static string ReplaceInvalidFileNameChars(string filename)

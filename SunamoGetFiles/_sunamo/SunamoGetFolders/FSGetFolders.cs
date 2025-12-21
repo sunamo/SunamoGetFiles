@@ -1,7 +1,5 @@
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
+
 internal class FSGetFolders
 {
     internal static void GetFoldersEveryFolder(ILogger logger, List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
