@@ -1,41 +1,58 @@
 namespace SunamoGetFiles;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// Provides helper methods for file operations
+/// </summary>
 partial class FSGetFiles
 {
-    public static void FilterByGetFilesArgs(List<string> list, IEnumerable<string> folders, GetFilesEveryFolderArgs a)
+    /// <summary>
+    /// Filters file list according to GetFilesEveryFolderArgs settings
+    /// </summary>
+    /// <param name="list">List of file paths to filter</param>
+    /// <param name="folders">Folders to process</param>
+    /// <param name="args">Arguments containing filter settings</param>
+    public static void FilterByGetFilesArgs(List<string> list, IEnumerable<string> folders, GetFilesEveryFolderArgs args)
     {
-        if (a == null) a = new GetFilesEveryFolderArgs();
-        CAChangeContent.ChangeContent0(null, list, d => SH.FirstCharUpper(d));
-        if (a._trimA1AndLeadingBs)
+        if (args == null) args = new GetFilesEveryFolderArgs();
+
+        CAChangeContent.ChangeContent0(null, list, filePath => SH.FirstCharUpper(filePath));
+
+        if (args.TrimRootFolderAndLeadingBackslashes)
             foreach (var folder in folders)
-                list = CAChangeContent.ChangeContent0(null, list, d => d = d.Replace(folder, "").TrimEnd('\\'));
-        if (a._trimExt)
+                list = CAChangeContent.ChangeContent0(null, list, filePath => filePath = filePath.Replace(folder, "").TrimEnd('\\'));
+
+        if (args.TrimExtension)
             foreach (var folder in folders)
-                list = CAChangeContent.ChangeContent0(null, list, d => d = SHParts.RemoveAfterLast(d, '.'));
-        if (a.excludeFromLocationsCOntains != null)
-            // I want to find files recursively
-            foreach (var item in a.excludeFromLocationsCOntains)
-                list = list.Where(d => !d.Contains(item)).ToList();
-        //CA.RemoveWhichContains(list, item, false);
+                list = CAChangeContent.ChangeContent0(null, list, filePath => filePath = SHParts.RemoveAfterLast(filePath, '.'));
+
+        if (args.ExcludeFromLocationsContains != null)
+        {
+            foreach (var item in args.ExcludeFromLocationsContains)
+                list = list.Where(filePath => !filePath.Contains(item)).ToList();
+        }
+
         Dictionary<string, DateTime> dictLastModified = null;
-        var isLastModifiedFromFn = a.LastModifiedFromFn != null;
-        if (a.dontIncludeNewest || a.byDateOfLastModifiedAsc || isLastModifiedFromFn)
+        var isLastModifiedFromFn = args.LastModifiedFromFn != null;
+        if (args.DontIncludeNewest || args.ByDateOfLastModifiedAsc || isLastModifiedFromFn)
         {
             dictLastModified = new Dictionary<string, DateTime>();
             foreach (var item in list)
             {
-                DateTime? dt = null;
-                if (isLastModifiedFromFn) dt = a.LastModifiedFromFn(Path.GetFileNameWithoutExtension(item));
-                if (!dt.HasValue) dt = FS.LastModified(item);
-                dictLastModified.Add(item, dt.Value);
+                DateTime? lastModified = null;
+                if (isLastModifiedFromFn)
+                    lastModified = args.LastModifiedFromFn(Path.GetFileNameWithoutExtension(item));
+                if (!lastModified.HasValue)
+                    lastModified = FS.LastModified(item);
+                dictLastModified.Add(item, lastModified.Value);
             }
 
-            list = dictLastModified.OrderBy(t => t.Value).Select(r => r.Key).ToList();
+            list = dictLastModified.OrderBy(pair => pair.Value).Select(pair => pair.Key).ToList();
         }
 
-        if (a.dontIncludeNewest) list.RemoveAt(list.Count - 1);
-        if (a.excludeWithMethod != null) a.excludeWithMethod.Invoke(list);
+        if (args.DontIncludeNewest)
+            list.RemoveAt(list.Count - 1);
+
+        if (args.ExcludeWithMethod != null)
+            args.ExcludeWithMethod.Invoke(list);
     }
 }

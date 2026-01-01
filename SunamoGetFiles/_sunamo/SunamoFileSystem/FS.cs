@@ -1,148 +1,141 @@
 namespace SunamoGetFiles._sunamo.SunamoFileSystem;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// File system helper methods
+/// </summary>
 internal class FS
 {
+    /// <summary>
+    /// Replaces invalid filename characters with empty string
+    /// </summary>
+    /// <param name="filename">Filename to clean</param>
+    /// <returns>Cleaned filename</returns>
     internal static string ReplaceInvalidFileNameChars(string filename)
     {
         return string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
     }
-    internal static string AllIncludeIfOnlyLetters(string item)
+
+    /// <summary>
+    /// Adds wildcard and extension dot if input contains only letters
+    /// </summary>
+    /// <param name="text">Input text</param>
+    /// <returns>Formatted extension pattern</returns>
+    internal static string AllIncludeIfOnlyLetters(string text)
     {
-        item = item.ToLower().TrimStart('*').TrimStart('.');
-        //if ( SH.ContainsOnlyCase(item.ToLower(), false, false))
-        //{
-        item = "*." + item;
-        //}
-
-
-        return item;
+        text = text.ToLower().TrimStart('*').TrimStart('.');
+        text = "*." + text;
+        return text;
     }
 
-
+    /// <summary>
+    /// Gets normalized extension from filename
+    /// </summary>
+    /// <param name="filename">Filename</param>
+    /// <returns>Normalized extension</returns>
     internal static string GetNormalizedExtension(string filename)
     {
         return NormalizeExtension(filename);
     }
 
+    /// <summary>
+    /// Gets size in automatically determined unit (B, KB, MB, GB, TB)
+    /// </summary>
+    /// <param name="size">Size in bytes</param>
+    /// <returns>Formatted size string</returns>
     internal static string GetSizeInAutoString(double size)
     {
-
-
         ComputerSizeUnitsGetFiles unit = ComputerSizeUnitsGetFiles.B;
-        if (size > NumConsts.kB)
+        if (size > NumConsts.KB)
         {
             unit = ComputerSizeUnitsGetFiles.KB;
-            size /= NumConsts.kB;
+            size /= NumConsts.KB;
         }
-        if (size > NumConsts.kB)
+        if (size > NumConsts.KB)
         {
             unit = ComputerSizeUnitsGetFiles.MB;
-            size /= NumConsts.kB;
+            size /= NumConsts.KB;
         }
-        if (size > NumConsts.kB)
+        if (size > NumConsts.KB)
         {
             unit = ComputerSizeUnitsGetFiles.GB;
-            size /= NumConsts.kB;
+            size /= NumConsts.KB;
         }
-        if (size > NumConsts.kB)
+        if (size > NumConsts.KB)
         {
             unit = ComputerSizeUnitsGetFiles.TB;
-            size /= NumConsts.kB;
+            size /= NumConsts.KB;
         }
 
         return size + " " + unit.ToString();
     }
 
-    internal static DateTime LastModified(string rel)
+    /// <summary>
+    /// Gets last modified time of file
+    /// </summary>
+    /// <param name="path">File path</param>
+    /// <returns>Last write time or DateTime.MinValue if file doesn't exist</returns>
+    internal static DateTime LastModified(string path)
     {
-        if (File.Exists(rel))
+        if (File.Exists(path))
         {
-            return File.GetLastWriteTime(rel);
-
-            // FileInfo mi dr�el soubor a vznikali chyby The process cannot access the file
-            //var f = new FileInfo(rel);
-            //var r = f.LastWriteTime;
-            //return r;
+            return File.GetLastWriteTime(path);
         }
         return DateTime.MinValue;
-
     }
 
-    internal static string MascFromExtension(string ext2 = "*")
+    /// <summary>
+    /// Creates file mask from extension
+    /// </summary>
+    /// <param name="extension">File extension</param>
+    /// <returns>File mask pattern</returns>
+    internal static string MascFromExtension(string extension = "*")
     {
-        if (char.IsLetterOrDigit(ext2[0]))
+        if (char.IsLetterOrDigit(extension[0]))
         {
-            // For wildcard, dot (simply non letters) include .
-            ext2 = "." + ext2;
+            extension = "." + extension;
         }
-        if (!ext2.StartsWith("*"))
+        if (!extension.StartsWith("*"))
         {
-            ext2 = "*" + ext2;
+            extension = "*" + extension;
         }
-        if (!ext2.StartsWith("*.") && ext2.StartsWith("."))
+        if (!extension.StartsWith("*.") && extension.StartsWith("."))
         {
-            ext2 = "*." + ext2;
+            extension = "*." + extension;
         }
 
-        return ext2;
-
-        //if (ext2 == ".*")
-        //{
-        //    return "*.*";
-        //}
-
-
-        //var ext = Path.GetExtension(ext2);
-        //var fn = Path.GetFileNameWithoutExtension(ext2);
-        //// isContained must be true, in BundleTsFile if false masc will be .ts, not *.ts and won't found any file
-        //var isContained = AllExtensionsHelperSH.IsContained(ext);
-        //ComplexInfoString cis = new ComplexInfoString(fn);
-
-        ////Already tried
-        ////(cis.QuantityLowerChars > 0 || cis.QuantityUpperChars > 0);
-        //// (cis.QuantityLowerChars > 0 || cis.QuantityUpperChars > 0); - in MoveClassElementIntoSharedFileUC
-        //// !(!ext.Contains("*") && !ext.Contains("?") && !(cis.QuantityLowerChars > 0 || cis.QuantityUpperChars > 0)) - change due to MoveClassElementIntoSharedFileUC
-
-        //// not working for *.aspx.cs
-        ////var isNoMascEntered = !(!ext2.Contains("*") && !ext2.Contains("?") && !(cis.QuantityLowerChars > 0 || cis.QuantityUpperChars > 0));
-        //// Is succifient one of inner condition false and whole is true
-
-        //var isNoMascEntered = !((ext2.Contains("*") || ext2.Contains("?")));// && !(cis.QuantityLowerChars > 0 || cis.QuantityUpperChars > 0));
-        //// From base of logic - isNoMascEntered must be without !. When something another wont working, edit only evaluate of condition above
-        //if (!ext.StartsWith("*.") && isNoMascEntered && isContained && ext == Path.GetExtension( ext2))
-        //{
-        //    // Dont understand why, when I insert .aspx.cs, then return just .aspx without *
-        //    //if (cis.QuantityUpperChars > 0 || cis.QuantityLowerChars > 0)
-        //    //{
-        //    //    return ext2;
-        //    //}
-
-        //    var vr = "*" + "." + ext2.TrimStart('.');
-        //    return vr;
-        //}
-
-        //return ext2;
+        return extension;
     }
 
+    /// <summary>
+    /// Normalizes extension by ensuring it starts with dot
+    /// </summary>
+    /// <param name="text">Extension text</param>
+    /// <returns>Normalized extension</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static string NormalizeExtension(string item)
+    internal static string NormalizeExtension(string text)
     {
-        return "." + item.TrimStart('.');
+        return "." + text.TrimStart('.');
     }
 
-    internal static void NormalizeExtensions(List<string> extension)
+    /// <summary>
+    /// Normalizes all extensions in list
+    /// </summary>
+    /// <param name="extensions">List of extensions</param>
+    internal static void NormalizeExtensions(List<string> extensions)
     {
-        for (int i = 0; i < extension.Count; i++)
+        for (int i = 0; i < extensions.Count; i++)
         {
-            extension[i] = NormalizeExtension(extension[i]);
+            extensions[i] = NormalizeExtension(extensions[i]);
         }
     }
 
-
-    internal static string GetFileName(string v)
+    /// <summary>
+    /// Gets filename from path
+    /// </summary>
+    /// <param name="path">File path</param>
+    /// <returns>Filename</returns>
+    internal static string GetFileName(string path)
     {
-        return Path.GetFileName(v.TrimEnd('\\'));
+        return Path.GetFileName(path.TrimEnd('\\'));
     }
 }

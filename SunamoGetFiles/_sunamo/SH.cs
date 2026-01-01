@@ -1,17 +1,23 @@
 namespace SunamoGetFiles._sunamo;
 
+/// <summary>
+/// String helper methods
+/// </summary>
 internal class SH
 {
-
-    internal static string FirstCharUpper(string nazevPP)
+    /// <summary>
+    /// Converts first character of string to uppercase
+    /// </summary>
+    /// <param name="text">Input text</param>
+    /// <returns>Text with first character in uppercase</returns>
+    internal static string FirstCharUpper(string text)
     {
-        if (nazevPP.Length == 1)
+        if (text.Length == 1)
         {
-            return nazevPP.ToUpper();
+            return text.ToUpper();
         }
 
-        string sb = nazevPP.Substring(1);
-        return nazevPP[0].ToString().ToUpper() + sb;
+        string restOfString = text.Substring(1);
+        return text[0].ToString().ToUpper() + restOfString;
     }
-
 }

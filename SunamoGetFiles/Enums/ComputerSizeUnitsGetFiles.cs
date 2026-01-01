@@ -6,7 +6,7 @@ namespace SunamoGetFiles.Enums;
 public enum ComputerSizeUnitsGetFiles : byte
 {
     /// <summary>
-    /// Když se má automaticky vyhodnotit nejsprávnější jednotka
+    /// Automatically determines the most appropriate unit
     /// </summary>
     Auto = 0,
     B = 1,

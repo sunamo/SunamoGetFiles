@@ -1,24 +1,19 @@
 namespace SunamoGetFiles._sunamo.SunamoLang.SunamoI18N;
 
-//namespace
-//#if SunamoDevCode
-//SunamoDevCode
-//#elif SunamoGetFiles
-//SunamoGetFiles
-//#else
-//SunamoLang
-//#endif
-//;
+/// <summary>
+/// Translation helper methods
+/// </summary>
 internal class Translate
 {
-    private static readonly Type type = typeof(Translate);
     /// <summary>
-    ///     Usage: Exceptions.IsNotWindowsPathFormat
+    /// Gets translation from key.
+    /// Currently returns the key itself (no actual translation).
+    /// Usage example: Exceptions.IsNotWindowsPathFormat
     /// </summary>
-    /// <param name="k"></param>
-    /// <returns></returns>
-    internal static string FromKey(string k)
+    /// <param name="key">Translation key</param>
+    /// <returns>Translation (currently just the key)</returns>
+    internal static string FromKey(string key)
     {
-        return k;
+        return key;
     }
 }

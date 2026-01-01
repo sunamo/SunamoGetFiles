@@ -1,22 +1,36 @@
 namespace SunamoGetFiles;
 
+/// <summary>
+/// Provides methods for getting files from the file system
+/// </summary>
 public partial class FSGetFiles
 {
-    public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool rek,
-        GetFilesEveryFolderArgs? e = null)
+    /// <summary>
+    /// Gets files from every folder
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Root folder to search</param>
+    /// <param name="mask">File mask (supports semicolon-separated masks)</param>
+    /// <param name="isRecursive">Whether to search recursively</param>
+    /// <param name="args">Optional arguments for file search</param>
+    /// <returns>List of file paths</returns>
+    public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool isRecursive,
+        GetFilesEveryFolderArgs? args = null)
     {
-        return GetFilesEveryFolder(logger, folder, mask, rek ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, e);
+        return GetFilesEveryFolder(logger, folder, mask, isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, args);
     }
 
     /// <summary>
-    ///     In item1 is all directories, in Item2 all files
+    /// Gets files from every folder with specified search options
     /// </summary>
-    /// <param name="folder"></param>
-    /// <param name="ask"></param>
-    /// <param name="searchOption"></param>
-    /// <param name="_trimA1"></param>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Root folder to search</param>
+    /// <param name="mask">File mask (supports semicolon-separated masks)</param>
+    /// <param name="searchOption">Search option (top directory only or all directories)</param>
+    /// <param name="args">Optional arguments for file search</param>
+    /// <returns>List of file paths</returns>
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask = "*", SearchOption searchOption = SearchOption.AllDirectories,
-        GetFilesEveryFolderArgs? e = null)
+        GetFilesEveryFolderArgs? args = null)
     {
         if (mask.Contains(";"))
         {
@@ -25,171 +39,84 @@ public partial class FSGetFiles
 
             foreach (var item in parts)
             {
-                result.AddRange(GetFilesEveryFolder(logger, folder, item, searchOption, e));
+                result.AddRange(GetFilesEveryFolder(logger, folder, item, searchOption, args));
             }
 
             return result;
         }
 
-        if (mask.Contains(";"))
-        {
-            var masces = SHSplit.Split(mask, ";");
+        if (args == null) args = new GetFilesEveryFolderArgs();
 
-            List<string> result = new List<string>();
-
-            foreach (var item in masces)
-            {
-                result.AddRange(GetFilesEveryFolder(logger, folder, item, searchOption, e));
-            }
-
-            return result;
-        }
-
-#if DEBUG
-        if (folder == @"D:\_Test\EveryLine\EveryLine\SearchCodeElementsUC\")
-        {
-        }
-#endif
-        if (e == null) e = new GetFilesEveryFolderArgs();
-        // TODO: některé soubory vrací vícekrát. toto je workaround než zjistím proč
-        // TODO: je důležité se toho zbavit co nejdříve protože při načítání to zbytečně zpomaluje
         var list = new List<string>();
-        List<string> dirs = null;
-        var measureTime = false;
-        //if (measureTime)
-        //{
-        //    //StopwatchStatic.Start();
-        //}
-        // There is not exc handle needed, its slowly then
-        //try
-        //{
-        if (e.usePbTime)
+        List<string> directories = null;
+
+        if (args.UsePbTime)
         {
             var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
-            e.InsertPbTime(60);
-            e.UpdateTbPb(message);
+            args.InsertPbTime(60);
+            args.UpdateTbPb(message);
         }
 
-
-        dirs = new List<string>();
+        directories = new List<string>();
         if (searchOption == SearchOption.AllDirectories)
         {
-            FSGetFolders.GetFoldersEveryFolder(logger, dirs, folder, "*", new GetFoldersEveryFolderArgs(e));
+            FSGetFolders.GetFoldersEveryFolder(logger, directories, folder, "*", new GetFoldersEveryFolderArgs(args));
         }
-#if DEBUG
-        //int before = dirs.Count;
-#endif
-        if (e.FilterFoundedFolders != null)
+
+        if (args.FilterFoundedFolders != null)
         {
-            string si = null;
-            for (var i = dirs.Count - 1; i >= 0; i--)
+            string currentDirectory = null;
+            for (var i = directories.Count - 1; i >= 0; i--)
             {
-                si = dirs[i];
-                //if (si.Contains(@"\standard\.git"))
-                //{
-                //}
-                if (!e.FilterFoundedFolders.Invoke(si)) dirs.RemoveAt(i);
+                currentDirectory = directories[i];
+                if (!args.FilterFoundedFolders.Invoke(currentDirectory)) directories.RemoveAt(i);
             }
         }
-#if DEBUG
-        //int after = dirs.Count;
-#endif
 
-        #region MyRegion
-
-        //ClipboardHelper.SetLines(dirs);
-        //}
-        //catch (Exception ex)
-        //{
-        //    throw new Exception(Translate.FromKey(XlfKeys.GetFilesWithPath)+": " + folder);
-        //}
-
-        #endregion
-
-        //if (measureTime)
-        //{
-        //    StopwatchStatic.StopAndPrintElapsed("GetFoldersEveryFolder");
-        //}
-        //if (measureTime)
-        //{
-        //    StopwatchStatic.Start();
-        //}
-        if (e.usePb)
+        if (args.UsePb)
         {
             var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FilesTree) + "...";
-            e.InsertPb(dirs.Count);
-            e.UpdateTbPb(message);
+            args.InsertPb(directories.Count);
+            args.UpdateTbPb(message);
         }
 
         var data = new List<string>();
-        //Není třeba, již volám dole e.Done(); / e.DonePartially();
-        //IProgressBarHelper pbh = null;
-        //if (e.progressBarHelper != null)
-        //{
-        //    pbh = e.progressBarHelper.CreateInstance(e.pb, dirs.Count, e.pb);
-        //}
-        dirs.Insert(0, folder);
+        directories.Insert(0, folder);
 
-        foreach (var item in dirs)
+        foreach (var item in directories)
         {
             try
             {
-
-
-                //data.Clear();
-                var f = Directory.GetFiles(item, mask, SearchOption.TopDirectoryOnly);
-                data.AddRange(f);
-                if (e.getNullIfThereIsMoreThanXFiles != -1)
-                    if (data.Count > e.getNullIfThereIsMoreThanXFiles)
+                var files = Directory.GetFiles(item, mask, SearchOption.TopDirectoryOnly);
+                data.AddRange(files);
+                if (args.GetNullIfThereIsMoreThanXFiles != -1)
+                    if (data.Count > args.GetNullIfThereIsMoreThanXFiles)
                     {
-                        if (e.usePb) e.Done();
+                        if (args.UsePb) args.Done();
                         return null;
                     }
             }
             catch (Exception ex)
             {
-                if (e.throwEx) ThrowEx.Custom(ex);
-
-                // Not throw exception, it's probably Access denied on Documents and Settings etc
-                //ThrowEx.FileSystemException( ex);
+                if (args.ThrowEx) ThrowEx.Custom(ex);
             }
 
-#if DEBUG
-            if (data.Any())
-            {
+            if (args.UsePb) args.DoneOnePercent();
 
-            }
-#endif
-
-
-            if (e.usePb) e.DoneOnePercent();
-#if DEBUG
-            //before = data.Count;
-#endif
-            if (e.FilterFoundedFiles != null)
+            if (args.FilterFoundedFiles != null)
                 for (var i = data.Count - 1; i >= 0; i--)
-                    if (!e.FilterFoundedFiles(data[i]))
+                    if (!args.FilterFoundedFiles(data[i]))
                         data.RemoveAt(i);
-#if DEBUG
-            //after = data.Count;
-            //if (before != 0 && after == 0)
-            //{
-            //}
-#endif
+
             list.AddRange(data);
             data.Clear();
         }
 
         list = list.Distinct().ToList();
-        if (e.usePb) e.Done();
-        //if (measureTime)
-        //{
-        //    StopwatchStatic.StopAndPrintElapsed("GetFiles");
-        //}
-        //CAChangeContent.ChangeContent0(null, list, d2 => SH.FirstCharUpper(d2));
+        if (args.UsePb) args.Done();
+
         for (var i = 0; i < list.Count; i++) list[i] = SH.FirstCharUpper(list[i]);
-        if (e._trimA1AndLeadingBs)
-            //list = CAChangeContent.ChangeContent0(null, list, d3 => d3 = d3.Replace(folder, "").TrimStart('\\'));
+        if (args.TrimRootFolderAndLeadingBackslashes)
             for (var i = 0; i < list.Count; i++)
                 list[i] = list[i].Replace(folder, "").TrimStart('\\').TrimEnd('\\');
         return list;

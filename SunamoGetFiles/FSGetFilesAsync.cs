@@ -1,11 +1,20 @@
 namespace SunamoGetFiles;
 
+/// <summary>
+/// Provides asynchronous methods for getting files from the file system
+/// </summary>
 partial class FSGetFiles
 {
-    public static List<long> GetFilesSizes(ILogger logger, List<string> f)
+    /// <summary>
+    /// Gets file sizes for a list of files
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="files">List of file paths</param>
+    /// <returns>List of file sizes in bytes</returns>
+    public static List<long> GetFilesSizes(ILogger logger, List<string> files)
     {
         var sizes = new List<long>();
-        foreach (var item in f)
+        foreach (var item in files)
         {
             try
             {
@@ -15,79 +24,86 @@ partial class FSGetFiles
             {
                 logger.LogError(Exceptions.TextOfExceptions(ex));
             }
-
         }
         return sizes;
     }
 
     /// <summary>
-    ///     When is occur Access denied exception, use GetFilesEveryFolder, which find files in every folder
-    ///     A1 have to be with ending backslash
-    ///     A4 must have underscore otherwise is suggested while I try type true
-    ///     A2 can be delimited by semicolon. In case more extension use GetFilesOfExtensions
+    /// Gets files asynchronously from specified folder(s) with mask and search options.
+    /// When Access Denied exception occurs, use GetFilesEveryFolder which searches in every subfolder.
     /// </summary>
-    /// <param name="folder"></param>
-    /// <param name="mask"></param>
-    /// <param name="searchOption"></param>
-    public static async Task<List<string>> GetFilesAsync(ILogger logger, string folder2, string mask, SearchOption searchOption,
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Folder path (can be semicolon-delimited for multiple folders)</param>
+    /// <param name="mask">File mask (use GetFilesOfExtensions for multiple extensions)</param>
+    /// <param name="searchOption">Search option (top directory only or all directories)</param>
+    /// <param name="getFilesArgs">Optional arguments for file search</param>
+    /// <returns>List of file paths</returns>
+    public static async Task<List<string>> GetFilesAsync(ILogger logger, string folder, string mask, SearchOption searchOption,
         GetFilesEveryFolderArgs getFilesArgs = null)
     {
-        if (!Directory.Exists(folder2) && !folder2.Contains(";"))
-            //ThisApp.Warning(folder2 + "does not exists");
+        if (!Directory.Exists(folder) && !folder.Contains(";"))
             return new List<string>();
+
         if (getFilesArgs == null) getFilesArgs = new GetFilesEveryFolderArgs();
-        var folders = SHSplit.Split(folder2, ";");
-        for (var i = 0; i < folders.Count; i++) folders[i] = folders[i].TrimEnd('\\') + "\"";
-        //CA.PostfixIfNotEnding("\"", folders);
+
+        var folders = SHSplit.Split(folder, ";");
+        for (var i = 0; i < folders.Count; i++)
+            folders[i] = folders[i].TrimEnd('\\') + "\"";
+
         var list = new List<string>();
-        foreach (var folder in folders)
-            if (!Directory.Exists(folder))
+        foreach (var currentFolder in folders)
+        {
+            if (Directory.Exists(currentFolder))
             {
+                return GetFilesEveryFolder(logger, currentFolder, mask, searchOption);
             }
-            else
-            {
-                return GetFilesEveryFolder(logger, folder, mask, searchOption);
-            }
+        }
 
-        //CAChangeContent.ChangeContent0(null, list, d => SH.FirstCharUpper(d));
-        for (var i = 0; i < list.Count; i++) list[i] = SH.FirstCharUpper(list[i]);
-        if (getFilesArgs._trimA1AndLeadingBs)
-            foreach (var folder in folders)
-                //list = CAChangeContent.ChangeContent0(null, list, d => d = d.Replace(folder, ""));
+        for (var i = 0; i < list.Count; i++)
+            list[i] = SH.FirstCharUpper(list[i]);
+
+        if (getFilesArgs.TrimRootFolderAndLeadingBackslashes)
+        {
+            foreach (var currentFolder in folders)
+            {
                 for (var i = 0; i < list.Count; i++)
-                    list[i] = list[i].Replace(folder, "");
-        if (getFilesArgs._trimA1AndLeadingBs)
-            foreach (var folder in folders)
-            {
-                list = CAChangeContent.ChangeContent0(null, list, d => d = SHParts.RemoveAfterLast(d, '.'));
-                for (var i = 0; i < list.Count; i++) list[i] = SHParts.RemoveAfterLast(list[i], '.');
+                {
+                    list[i] = list[i].Replace(currentFolder, "");
+                    list[i] = SHParts.RemoveAfterLast(list[i], '.');
+                }
             }
+        }
 
-        if (getFilesArgs.excludeFromLocationsCOntains != null)
-            // I want to find files recursively
-            foreach (var item in getFilesArgs.excludeFromLocationsCOntains)
-                list = list.Where(d => !d.Contains(item)).ToList();
-        //CA.RemoveWhichContains(list, item, false);
+        if (getFilesArgs.ExcludeFromLocationsContains != null)
+        {
+            foreach (var item in getFilesArgs.ExcludeFromLocationsContains)
+                list = list.Where(filePath => !filePath.Contains(item)).ToList();
+        }
+
         Dictionary<string, DateTime> dictLastModified = null;
         var isLastModifiedFromFn = getFilesArgs.LastModifiedFromFn != null;
-        if (getFilesArgs.dontIncludeNewest || getFilesArgs.byDateOfLastModifiedAsc || isLastModifiedFromFn)
+        if (getFilesArgs.DontIncludeNewest || getFilesArgs.ByDateOfLastModifiedAsc || isLastModifiedFromFn)
         {
             dictLastModified = new Dictionary<string, DateTime>();
             foreach (var item in list)
             {
-                DateTime? dt = null;
-                if (isLastModifiedFromFn) dt = getFilesArgs.LastModifiedFromFn(Path.GetFileNameWithoutExtension(item));
-                if (!dt.HasValue) dt = FS.LastModified(item);
-                dictLastModified.Add(item, dt.Value);
+                DateTime? lastModified = null;
+                if (isLastModifiedFromFn)
+                    lastModified = getFilesArgs.LastModifiedFromFn(Path.GetFileNameWithoutExtension(item));
+                if (!lastModified.HasValue)
+                    lastModified = FS.LastModified(item);
+                dictLastModified.Add(item, lastModified.Value);
             }
 
-            list = dictLastModified.OrderBy(t => t.Value).Select(r => r.Key).ToList();
+            list = dictLastModified.OrderBy(pair => pair.Value).Select(pair => pair.Key).ToList();
         }
 
-        if (getFilesArgs.dontIncludeNewest) list.RemoveAt(list.Count - 1);
-        if (getFilesArgs.excludeWithMethod != null) getFilesArgs.excludeWithMethod.Invoke(list);
+        if (getFilesArgs.DontIncludeNewest)
+            list.RemoveAt(list.Count - 1);
+
+        if (getFilesArgs.ExcludeWithMethod != null)
+            getFilesArgs.ExcludeWithMethod.Invoke(list);
+
         return list;
     }
-
-
 }

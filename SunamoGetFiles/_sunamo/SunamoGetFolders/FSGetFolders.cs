@@ -1,8 +1,19 @@
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
 
+/// <summary>
+/// Folder system helper methods
+/// </summary>
 internal class FSGetFolders
 {
-    internal static void GetFoldersEveryFolder(ILogger logger, List<string> folders, string folder, string v, GetFoldersEveryFolderArgs e)
+    /// <summary>
+    /// Gets folders recursively from every folder
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folders">Output list of folders</param>
+    /// <param name="folder">Root folder to search</param>
+    /// <param name="searchPattern">Search pattern for folders</param>
+    /// <param name="args">Arguments for folder search</param>
+    internal static void GetFoldersEveryFolder(ILogger logger, List<string> folders, string folder, string searchPattern, GetFoldersEveryFolderArgs args)
     {
         if (logger == null)
         {
@@ -10,12 +21,12 @@ internal class FSGetFolders
         }
         try
         {
-            var data = Directory.GetDirectories(folder, v, SearchOption.TopDirectoryOnly).ToList();
-            if (e.IgnoreFoldersWithName != null)
+            var data = Directory.GetDirectories(folder, searchPattern, SearchOption.TopDirectoryOnly).ToList();
+            if (args.IgnoreFoldersWithName != null)
             {
                 for (int i = data.Count - 1; i >= 0; i--)
                 {
-                    if (e.IgnoreFoldersWithName.Contains(FS.GetFileName(data[i])))
+                    if (args.IgnoreFoldersWithName.Contains(FS.GetFileName(data[i])))
                     {
                         data.RemoveAt(i);
                     }
@@ -24,20 +35,18 @@ internal class FSGetFolders
             folders.AddRange(data);
             foreach (var item in data)
             {
-                GetFoldersEveryFolder(logger, folders, item, v, e);
+                GetFoldersEveryFolder(logger, folders, item, searchPattern, args);
             }
         }
         catch (Exception ex)
         {
-            if (e.throwEx)
+            if (args.ThrowEx)
             {
-                throw ex;
+                throw;
             }
             else
             {
                 logger.LogError(message: ex.Message);
-                // do nothing
-                //return new List<string>();
             }
         }
     }

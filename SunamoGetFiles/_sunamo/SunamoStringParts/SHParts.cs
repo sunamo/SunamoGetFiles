@@ -1,15 +1,24 @@
 namespace SunamoGetFiles._sunamo.SunamoStringParts;
 
+/// <summary>
+/// String parts helper methods
+/// </summary>
 internal class SHParts
 {
-    internal static string RemoveAfterLast(string nameSolution, object delimiter)
+    /// <summary>
+    /// Removes part of string after last occurrence of delimiter
+    /// </summary>
+    /// <param name="text">Input text</param>
+    /// <param name="delimiter">Delimiter to search for</param>
+    /// <returns>String without part after last delimiter</returns>
+    internal static string RemoveAfterLast(string text, object delimiter)
     {
-        int dex = nameSolution.LastIndexOf(delimiter.ToString());
-        if (dex != -1)
+        int lastIndex = text.LastIndexOf(delimiter.ToString());
+        if (lastIndex != -1)
         {
-            string s = nameSolution.Substring(0, dex); //SHSubstring.Substring(, 0, dex, new SubstringArgs());
-            return s;
+            string result = text.Substring(0, lastIndex);
+            return result;
         }
-        return nameSolution;
+        return text;
     }
 }

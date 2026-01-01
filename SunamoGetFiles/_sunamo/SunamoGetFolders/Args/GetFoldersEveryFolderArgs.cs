@@ -1,28 +1,34 @@
 namespace SunamoGetFiles._sunamo.SunamoGetFolders.Args;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-internal class GetFoldersEveryFolderArgs //: GetFilesArgs
+/// <summary>
+/// Arguments for GetFoldersEveryFolder operations
+/// </summary>
+internal class GetFoldersEveryFolderArgs
 {
-    ///// <summary>
-    ///// Auto call WithEndSlash
-    ///// </summary>
-    //internal bool _trimA1AndLeadingBs = false;
-    //internal List<string> excludeFromLocationsCOntains = null;
-    //// nevím k čemu to je ale zdá se nesmysl, ověřovat můžu přes excludeFromLocationsCOntains != null
-    ////internal bool excludeFromLocationsCOntainsBool = false;
-    //internal bool writeToDebugEveryLoadedFolder = false;
-    internal bool throwEx = false;
-    internal GetFoldersEveryFolderArgs(GetFilesEveryFolderArgs e)
+    /// <summary>
+    /// Whether to throw exceptions or suppress them
+    /// </summary>
+    internal bool ThrowEx { get; set; } = false;
+
+    /// <summary>
+    /// List of folder names to ignore during search
+    /// </summary>
+    internal List<string> IgnoreFoldersWithName { get; set; } = null;
+
+    /// <summary>
+    /// Initializes from GetFilesEveryFolderArgs
+    /// </summary>
+    /// <param name="args">Source arguments</param>
+    internal GetFoldersEveryFolderArgs(GetFilesEveryFolderArgs args)
     {
-        //_trimA1AndLeadingBs = e._trimA1AndLeadingBs;
-        //followJunctions = e.followJunctions;
-        //dIsJunctionPoint = e.dIsJunctionPoint;
-        throwEx = e.throwEx;
-        IgnoreFoldersWithName = e.IgnoreFoldersWithName;
+        ThrowEx = args.ThrowEx;
+        IgnoreFoldersWithName = args.IgnoreFoldersWithName;
     }
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     internal GetFoldersEveryFolderArgs()
     {
     }
-    internal List<string> IgnoreFoldersWithName { get; set; } = null;
 }

@@ -1,27 +1,62 @@
 namespace SunamoGetFiles._sunamo.SunamoValues.Constants;
 
+/// <summary>
+/// Numeric constants
+/// </summary>
 internal class NumConsts
 {
-    #region For easy copy
-    internal const int mOne = -1;
-    #endregion
-    internal const int defaultPortIfCannotBeParsed = 587;
     /// <summary>
-    /// Min age is 18 due to GDPR - below 18 is needed parent agreement of child
+    /// Minus one constant
+    /// </summary>
+    internal const int MinusOne = -1;
+
+    /// <summary>
+    /// Default SMTP port if cannot be parsed
+    /// </summary>
+    internal const int DefaultPortIfCannotBeParsed = 587;
+
+    /// <summary>
+    /// Minimum age is 18 due to GDPR - below 18 is needed parent agreement of child
     /// </summary>
     internal const int MinAge = 18;
-    internal static short nDtMinVal = 10101;
-    internal static short nDtMaxVal = 32271;
+
     /// <summary>
-    /// one thousand
+    /// DateTime minimum value representation
     /// </summary>
-    internal static int to = 1000;
-    internal const long kB = 1024;
-    internal const double zeroDouble = 0;
-    internal const float zeroFloat = 0;
+    internal static short DateTimeMinValue = 10101;
+
     /// <summary>
-    /// at int should be no postfix
+    /// DateTime maximum value representation
     /// </summary>
-    internal const int one = 1;
-    internal const int zeroInt = 0;
+    internal static short DateTimeMaxValue = 32271;
+
+    /// <summary>
+    /// One thousand constant
+    /// </summary>
+    internal static int Thousand = 1000;
+
+    /// <summary>
+    /// Kilobyte constant (1024 bytes)
+    /// </summary>
+    internal const long KB = 1024;
+
+    /// <summary>
+    /// Zero as double
+    /// </summary>
+    internal const double ZeroDouble = 0;
+
+    /// <summary>
+    /// Zero as float
+    /// </summary>
+    internal const float ZeroFloat = 0;
+
+    /// <summary>
+    /// One constant (at int should be no postfix)
+    /// </summary>
+    internal const int One = 1;
+
+    /// <summary>
+    /// Zero as int
+    /// </summary>
+    internal const int ZeroInt = 0;
 }
