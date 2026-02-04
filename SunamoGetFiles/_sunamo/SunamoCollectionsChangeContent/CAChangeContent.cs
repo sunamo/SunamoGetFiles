@@ -16,7 +16,7 @@ internal class CAChangeContent
         {
             if (args.RemoveNull)
             {
-                list.Remove(null);
+                list.Remove(null!);
             }
             if (args.RemoveEmpty)
             {

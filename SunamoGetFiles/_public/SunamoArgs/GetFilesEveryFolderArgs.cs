@@ -14,7 +14,7 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Function to determine if a directory is a junction point
     /// </summary>
-    public Func<string, bool> IsJunctionPoint { get; set; } = null;
+    public Func<string, bool>? IsJunctionPoint { get; set; } = null;
 
     /// <summary>
     /// Whether to trim root folder path and leading backslashes from results
@@ -40,7 +40,7 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Custom method to exclude files from results
     /// </summary>
-    public Action<List<string>> ExcludeWithMethod { get; set; } = null;
+    public Action<List<string>>? ExcludeWithMethod { get; set; } = null;
 
     /// <summary>
     /// Whether to sort by date of last modification in ascending order
@@ -50,7 +50,7 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Function to get last modified date from filename
     /// </summary>
-    public Func<string, DateTime?> LastModifiedFromFn { get; set; }
+    public Func<string, DateTime?>? LastModifiedFromFn { get; set; }
 
     /// <summary>
     /// Whether to use mask from extension
@@ -65,22 +65,22 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Action to call when operation is done
     /// </summary>
-    public Action Done { get; set; }
+    public Action? Done { get; set; }
 
     /// <summary>
     /// Action to call when one percent of operation is done
     /// </summary>
-    public Action DoneOnePercent { get; set; }
+    public Action? DoneOnePercent { get; set; }
 
     /// <summary>
     /// Filter function for found files
     /// </summary>
-    public Func<string, bool> FilterFoundedFiles { get; set; }
+    public Func<string, bool>? FilterFoundedFiles { get; set; }
 
     /// <summary>
     /// Filter function for found folders
     /// </summary>
-    public Func<string, bool> FilterFoundedFolders { get; set; }
+    public Func<string, bool>? FilterFoundedFolders { get; set; }
 
     /// <summary>
     /// Returns null if there are more than X files found (-1 to disable)
@@ -90,12 +90,12 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Action to insert progress bar value
     /// </summary>
-    public Action<double> InsertPb { get; set; } = null;
+    public Action<double>? InsertPb { get; set; } = null;
 
     /// <summary>
     /// Action to insert progress bar time value
     /// </summary>
-    public Action<double> InsertPbTime { get; set; } = null;
+    public Action<double>? InsertPbTime { get; set; } = null;
 
     /// <summary>
     /// Whether to throw exceptions or suppress them
@@ -105,7 +105,7 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Action to update progress bar text
     /// </summary>
-    public Action<string> UpdateTbPb { get; set; } = null;
+    public Action<string>? UpdateTbPb { get; set; } = null;
 
     /// <summary>
     /// Whether to use progress bar

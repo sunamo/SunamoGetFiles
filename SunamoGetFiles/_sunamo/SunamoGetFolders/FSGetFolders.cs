@@ -9,11 +9,11 @@ internal class FSGetFolders
     /// Gets folders recursively from every folder
     /// </summary>
     /// <param name="logger">Logger instance</param>
-    /// <param name="folders">Output list of folders</param>
+    /// <param name="result">Output list of folders</param>
     /// <param name="folder">Root folder to search</param>
     /// <param name="searchPattern">Search pattern for folders</param>
     /// <param name="args">Arguments for folder search</param>
-    internal static void GetFoldersEveryFolder(ILogger logger, List<string> folders, string folder, string searchPattern, GetFoldersEveryFolderArgs args)
+    internal static void GetFoldersEveryFolder(ILogger logger, List<string> result, string folder, string searchPattern, GetFoldersEveryFolderArgs args)
     {
         if (logger == null)
         {
@@ -21,21 +21,21 @@ internal class FSGetFolders
         }
         try
         {
-            var data = Directory.GetDirectories(folder, searchPattern, SearchOption.TopDirectoryOnly).ToList();
+            var subdirectories = Directory.GetDirectories(folder, searchPattern, SearchOption.TopDirectoryOnly).ToList();
             if (args.IgnoreFoldersWithName != null)
             {
-                for (int i = data.Count - 1; i >= 0; i--)
+                for (int i = subdirectories.Count - 1; i >= 0; i--)
                 {
-                    if (args.IgnoreFoldersWithName.Contains(FS.GetFileName(data[i])))
+                    if (args.IgnoreFoldersWithName.Contains(FS.GetFileName(subdirectories[i])))
                     {
-                        data.RemoveAt(i);
+                        subdirectories.RemoveAt(i);
                     }
                 }
             }
-            folders.AddRange(data);
-            foreach (var item in data)
+            result.AddRange(subdirectories);
+            foreach (var item in subdirectories)
             {
-                GetFoldersEveryFolder(logger, folders, item, searchPattern, args);
+                GetFoldersEveryFolder(logger, result, item, searchPattern, args);
             }
         }
         catch (Exception ex)

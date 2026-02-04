@@ -39,16 +39,16 @@ partial class FSGetFiles
     /// <param name="getFilesArgs">Optional arguments for file search</param>
     /// <returns>List of file paths</returns>
     public static async Task<List<string>> GetFilesAsync(ILogger logger, string folder, string mask, SearchOption searchOption,
-        GetFilesEveryFolderArgs getFilesArgs = null)
+        GetFilesEveryFolderArgs? getFilesArgs = null)
     {
         if (!Directory.Exists(folder) && !folder.Contains(";"))
             return new List<string>();
 
-        if (getFilesArgs == null) getFilesArgs = new GetFilesEveryFolderArgs();
+        if (getFilesArgs == null!) getFilesArgs = new GetFilesEveryFolderArgs();
 
         var folders = SHSplit.Split(folder, ";");
         for (var i = 0; i < folders.Count; i++)
-            folders[i] = folders[i].TrimEnd('\\') + "\"";
+            folders[i] = folders[i].TrimEnd('\\') + "\\";
 
         var list = new List<string>();
         foreach (var currentFolder in folders)
@@ -80,7 +80,7 @@ partial class FSGetFiles
                 list = list.Where(filePath => !filePath.Contains(item)).ToList();
         }
 
-        Dictionary<string, DateTime> dictLastModified = null;
+        Dictionary<string, DateTime>? dictLastModified = null;
         var isLastModifiedFromFn = getFilesArgs.LastModifiedFromFn != null;
         if (getFilesArgs.DontIncludeNewest || getFilesArgs.ByDateOfLastModifiedAsc || isLastModifiedFromFn)
         {
@@ -89,7 +89,7 @@ partial class FSGetFiles
             {
                 DateTime? lastModified = null;
                 if (isLastModifiedFromFn)
-                    lastModified = getFilesArgs.LastModifiedFromFn(Path.GetFileNameWithoutExtension(item));
+                    lastModified = getFilesArgs.LastModifiedFromFn?.Invoke(Path.GetFileNameWithoutExtension(item));
                 if (!lastModified.HasValue)
                     lastModified = FS.LastModified(item);
                 dictLastModified.Add(item, lastModified.Value);
@@ -102,7 +102,7 @@ partial class FSGetFiles
             list.RemoveAt(list.Count - 1);
 
         if (getFilesArgs.ExcludeWithMethod != null)
-            getFilesArgs.ExcludeWithMethod.Invoke(list);
+            getFilesArgs.ExcludeWithMethod?.Invoke(list);
 
         return list;
     }

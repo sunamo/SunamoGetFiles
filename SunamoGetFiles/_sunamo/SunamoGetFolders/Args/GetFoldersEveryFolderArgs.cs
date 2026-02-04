@@ -13,7 +13,7 @@ internal class GetFoldersEveryFolderArgs
     /// <summary>
     /// List of folder names to ignore during search
     /// </summary>
-    internal List<string> IgnoreFoldersWithName { get; set; } = null;
+    internal List<string>? IgnoreFoldersWithName { get; set; } = null;
 
     /// <summary>
     /// Initializes from GetFilesEveryFolderArgs

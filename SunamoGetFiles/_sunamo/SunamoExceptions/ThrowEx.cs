@@ -26,8 +26,8 @@ internal partial class ThrowEx
     internal static bool Custom(string message, bool isReallyThrowing = true, string secondMessage = "")
     {
         string joined = string.Join(" ", message, secondMessage);
-        string? str = Exceptions.Custom(FullNameOfExecutedCode(), joined);
-        return ThrowIsNotNull(str, isReallyThrowing);
+        string? exceptionMessage = Exceptions.Custom(FullNameOfExecutedCode(), joined);
+        return ThrowIsNotNull(exceptionMessage, isReallyThrowing);
     }
 
     #region Other

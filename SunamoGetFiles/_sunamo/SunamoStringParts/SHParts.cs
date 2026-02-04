@@ -13,7 +13,7 @@ internal class SHParts
     /// <returns>String without part after last delimiter</returns>
     internal static string RemoveAfterLast(string text, object delimiter)
     {
-        int lastIndex = text.LastIndexOf(delimiter.ToString());
+        int lastIndex = text.LastIndexOf(delimiter.ToString() ?? string.Empty);
         if (lastIndex != -1)
         {
             string result = text.Substring(0, lastIndex);

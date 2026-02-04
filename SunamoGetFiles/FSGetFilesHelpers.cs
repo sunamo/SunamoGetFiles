@@ -31,28 +31,28 @@ partial class FSGetFiles
                 list = list.Where(filePath => !filePath.Contains(item)).ToList();
         }
 
-        Dictionary<string, DateTime> dictLastModified = null;
+        Dictionary<string, DateTime>? lastModifiedByFile = null;
         var isLastModifiedFromFn = args.LastModifiedFromFn != null;
         if (args.DontIncludeNewest || args.ByDateOfLastModifiedAsc || isLastModifiedFromFn)
         {
-            dictLastModified = new Dictionary<string, DateTime>();
+            lastModifiedByFile = new Dictionary<string, DateTime>();
             foreach (var item in list)
             {
                 DateTime? lastModified = null;
                 if (isLastModifiedFromFn)
-                    lastModified = args.LastModifiedFromFn(Path.GetFileNameWithoutExtension(item));
+                    lastModified = args.LastModifiedFromFn?.Invoke(Path.GetFileNameWithoutExtension(item));
                 if (!lastModified.HasValue)
                     lastModified = FS.LastModified(item);
-                dictLastModified.Add(item, lastModified.Value);
+                lastModifiedByFile.Add(item, lastModified.Value);
             }
 
-            list = dictLastModified.OrderBy(pair => pair.Value).Select(pair => pair.Key).ToList();
+            list = lastModifiedByFile.OrderBy(pair => pair.Value).Select(pair => pair.Key).ToList();
         }
 
         if (args.DontIncludeNewest)
             list.RemoveAt(list.Count - 1);
 
         if (args.ExcludeWithMethod != null)
-            args.ExcludeWithMethod.Invoke(list);
+            args.ExcludeWithMethod?.Invoke(list);
     }
 }

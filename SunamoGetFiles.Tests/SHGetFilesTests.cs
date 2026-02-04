@@ -1,8 +1,11 @@
+// variables names: ok
 namespace SunamoGetFiles.Tests;
 
 using Microsoft.Extensions.Logging;
 using SunamoGetFiles._public.SunamoArgs;
+#if NET9_0_OR_GREATER
 using SunamoTest;
+#endif
 using System.Text;
 
 /// <summary>
@@ -13,6 +16,7 @@ public class SHGetFilesTests
     /// <summary>
     /// Tests GetFoldersEveryFolder method
     /// </summary>
+    [Fact]
     public void GetFoldersEveryFolderTest()
     {
         var files = FSGetFiles.GetFilesEveryFolder(LoggerDummy.Instance, @"E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoExceptions\", "*.cs", true, new SunamoGetFiles._public.SunamoArgs.GetFilesEveryFolderArgs { ExcludeGeneratedCodeFolders = true });
@@ -44,7 +48,12 @@ public class SHGetFilesTests
         File.WriteAllText(@"D:\a.txt", stringBuilder.ToString());
     }
 
-    private ILogger logger = TestLogger.Instance;
+    private ILogger logger =
+#if NET9_0_OR_GREATER
+        TestLogger.Instance;
+#else
+        LoggerDummy.Instance;
+#endif
 
     /// <summary>
     /// Tests GetFilesEveryFolder method with various parameters

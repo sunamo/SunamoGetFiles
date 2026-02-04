@@ -1,3 +1,4 @@
+// variables names: ok
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -33,21 +34,14 @@ internal class Program
 false
 #endif
         });
-
-        //var sp = Services.BuildServiceProvider();
-        //Logger = sp.GetService<ILogger>() ?? throw new Exception("Logger cannot be found");
     }
 
     static async Task RunInDebug()
     {
-        var sp = Services.BuildServiceProvider();
-        Logger = sp.GetService<ILogger>() ?? throw new Exception("Logger cannot be found");
+        var serviceProvider = Services.BuildServiceProvider();
+        Logger = serviceProvider.GetService<ILogger>() ?? throw new Exception("Logger cannot be found");
 
-        SHGetFilesTests t = new SHGetFilesTests();
-        //t.GetFilesTest();
-
-        //t.GetFoldersEveryFolderTest();
-        t.GetFilesEveryFolderTest();
-
+        SHGetFilesTests tests = new SHGetFilesTests();
+        tests.GetFilesEveryFolderTest();
     }
 }
