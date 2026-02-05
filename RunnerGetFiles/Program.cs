@@ -23,9 +23,7 @@ internal class Program
 
         await CmdBootStrap.RunWithRunArgs(new SunamoCl.SunamoCmd.Args.RunArgs
         {
-            IsLoggingToConsole = true,
-            runInDebug = RunInDebug,
-            categoryNameLogger = appName,
+            RunInDebugAsync = RunInDebug,
             ServiceCollection = Services,
             IsDebug =
 #if DEBUG
