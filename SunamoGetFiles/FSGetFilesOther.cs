@@ -7,11 +7,11 @@ partial class FSGetFiles
     /// </summary>
     /// <param name="logger">Logger instance</param>
     /// <param name="folder">Folder path to search</param>
-    /// <param name="fileExtension">File extension without dot (e.g., "txt", "cs")</param>
+    /// <param name="extension">File extension without dot (e.g., "txt", "cs")</param>
     /// <returns>List of file paths with specified extension</returns>
-    public static List<string> FilesOfExtension(ILogger logger, string folder, string fileExtension)
+    public static List<string> FilesOfExtension(ILogger logger, string folder, string extension)
     {
-        return GetFilesEveryFolder(logger, folder, "*." + fileExtension, SearchOption.TopDirectoryOnly);
+        return GetFilesEveryFolder(logger, folder, "*." + extension, SearchOption.TopDirectoryOnly);
     }
 
     /// <summary>

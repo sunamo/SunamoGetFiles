@@ -19,8 +19,6 @@ internal class Program
 
     static async Task MainAsync(string[] args)
     {
-        var appName = "RunnerGetFiles";
-
         await CmdBootStrap.RunWithRunArgs(new SunamoCl.SunamoCmd.Args.RunArgs
         {
             RunInDebugAsync = RunInDebug,
