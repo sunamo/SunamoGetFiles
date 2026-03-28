@@ -32,15 +32,15 @@ partial class FSGetFiles
         }
 
         Dictionary<string, DateTime>? lastModifiedByFile = null;
-        var isLastModifiedFromFn = args.LastModifiedFromFn != null;
-        if (args.DontIncludeNewest || args.ByDateOfLastModifiedAsc || isLastModifiedFromFn)
+        var hasLastModifiedFromFileName = args.LastModifiedFromFileName != null;
+        if (args.DontIncludeNewest || args.ByDateOfLastModifiedAsc || hasLastModifiedFromFileName)
         {
             lastModifiedByFile = new Dictionary<string, DateTime>();
             foreach (var item in list)
             {
                 DateTime? lastModified = null;
-                if (isLastModifiedFromFn)
-                    lastModified = args.LastModifiedFromFn?.Invoke(Path.GetFileNameWithoutExtension(item));
+                if (hasLastModifiedFromFileName)
+                    lastModified = args.LastModifiedFromFileName?.Invoke(Path.GetFileNameWithoutExtension(item));
                 if (!lastModified.HasValue)
                     lastModified = FS.LastModified(item);
                 lastModifiedByFile.Add(item, lastModified.Value);

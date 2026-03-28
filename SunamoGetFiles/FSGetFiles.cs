@@ -50,11 +50,11 @@ public partial class FSGetFiles
         var list = new List<string>();
         List<string>? directories = null;
 
-        if (args.UsePbTime)
+        if (args.UseProgressBarTime)
         {
             var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
-            args.InsertPbTime?.Invoke(60);
-            args.UpdateTbPb?.Invoke(message);
+            args.InsertProgressBarTime?.Invoke(60);
+            args.UpdateTextProgressBar?.Invoke(message);
         }
 
         directories = new List<string>();
@@ -63,21 +63,21 @@ public partial class FSGetFiles
             FSGetFolders.GetFoldersEveryFolder(logger, directories, folder, "*", new GetFoldersEveryFolderArgs(args));
         }
 
-        if (args.FilterFoundedFolders != null)
+        if (args.FilterFoundFolders != null)
         {
             string? currentDirectory = null;
             for (var i = directories.Count - 1; i >= 0; i--)
             {
                 currentDirectory = directories[i];
-                if (!args.FilterFoundedFolders.Invoke(currentDirectory)) directories.RemoveAt(i);
+                if (!args.FilterFoundFolders.Invoke(currentDirectory)) directories.RemoveAt(i);
             }
         }
 
-        if (args.UsePb)
+        if (args.UseProgressBar)
         {
             var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FilesTree) + "...";
-            args.InsertPb?.Invoke(directories.Count);
-            args.UpdateTbPb?.Invoke(message);
+            args.InsertProgressBar?.Invoke(directories.Count);
+            args.UpdateTextProgressBar?.Invoke(message);
         }
 
         var filesInCurrentDirectory = new List<string>();
@@ -92,20 +92,20 @@ public partial class FSGetFiles
                 if (args.GetNullIfThereIsMoreThanXFiles != -1)
                     if (filesInCurrentDirectory.Count > args.GetNullIfThereIsMoreThanXFiles)
                     {
-                        if (args.UsePb) args.Done?.Invoke();
+                        if (args.UseProgressBar) args.Done?.Invoke();
                         return null!;
                     }
             }
             catch (Exception ex)
             {
-                if (args.ThrowEx) ThrowEx.Custom(ex);
+                if (args.ThrowException) ThrowEx.Custom(ex);
             }
 
-            if (args.UsePb) args.DoneOnePercent?.Invoke();
+            if (args.UseProgressBar) args.DoneOnePercent?.Invoke();
 
-            if (args.FilterFoundedFiles != null)
+            if (args.FilterFoundFiles != null)
                 for (var i = filesInCurrentDirectory.Count - 1; i >= 0; i--)
-                    if (!args.FilterFoundedFiles(filesInCurrentDirectory[i]))
+                    if (!args.FilterFoundFiles(filesInCurrentDirectory[i]))
                         filesInCurrentDirectory.RemoveAt(i);
 
             list.AddRange(filesInCurrentDirectory);
@@ -113,7 +113,7 @@ public partial class FSGetFiles
         }
 
         list = list.Distinct().ToList();
-        if (args.UsePb) args.Done?.Invoke();
+        if (args.UseProgressBar) args.Done?.Invoke();
 
         for (var i = 0; i < list.Count; i++) list[i] = SH.FirstCharUpper(list[i]);
         if (args.TrimRootFolderAndLeadingBackslashes)

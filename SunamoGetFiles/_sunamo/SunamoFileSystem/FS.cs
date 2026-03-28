@@ -6,28 +6,6 @@ namespace SunamoGetFiles._sunamo.SunamoFileSystem;
 internal class FS
 {
     /// <summary>
-    /// Replaces invalid filename characters with empty string
-    /// </summary>
-    /// <param name="filename">Filename to clean</param>
-    /// <returns>Cleaned filename</returns>
-    internal static string ReplaceInvalidFileNameChars(string filename)
-    {
-        return string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
-    }
-
-    /// <summary>
-    /// Adds wildcard and extension dot if input contains only letters
-    /// </summary>
-    /// <param name="text">Input text</param>
-    /// <returns>Formatted extension pattern</returns>
-    internal static string AllIncludeIfOnlyLetters(string text)
-    {
-        text = text.ToLower().TrimStart('*').TrimStart('.');
-        text = "*." + text;
-        return text;
-    }
-
-    /// <summary>
     /// Gets normalized extension from filename
     /// </summary>
     /// <param name="filename">Filename</param>
@@ -88,7 +66,7 @@ internal class FS
     /// </summary>
     /// <param name="extension">File extension</param>
     /// <returns>File mask pattern</returns>
-    internal static string MascFromExtension(string extension = "*")
+    internal static string MaskFromExtension(string extension = "*")
     {
         if (char.IsLetterOrDigit(extension[0]))
         {
@@ -109,12 +87,12 @@ internal class FS
     /// <summary>
     /// Normalizes extension by ensuring it starts with dot
     /// </summary>
-    /// <param name="text">Extension text</param>
+    /// <param name="extension">Extension to normalize</param>
     /// <returns>Normalized extension</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static string NormalizeExtension(string text)
+    internal static string NormalizeExtension(string extension)
     {
-        return "." + text.TrimStart('.');
+        return "." + extension.TrimStart('.');
     }
 
     /// <summary>

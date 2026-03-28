@@ -8,7 +8,7 @@ internal class GetFoldersEveryFolderArgs
     /// <summary>
     /// Whether to throw exceptions or suppress them
     /// </summary>
-    internal bool ThrowEx { get; set; } = false;
+    internal bool ThrowException { get; set; } = false;
 
     /// <summary>
     /// List of folder names to ignore during search
@@ -21,7 +21,7 @@ internal class GetFoldersEveryFolderArgs
     /// <param name="args">Source arguments</param>
     internal GetFoldersEveryFolderArgs(GetFilesEveryFolderArgs args)
     {
-        ThrowEx = args.ThrowEx;
+        ThrowException = args.ThrowException;
         IgnoreFoldersWithName = args.IgnoreFoldersWithName;
     }
 

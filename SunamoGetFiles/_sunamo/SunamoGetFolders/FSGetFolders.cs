@@ -40,7 +40,7 @@ internal class FSGetFolders
         }
         catch (Exception ex)
         {
-            if (args.ThrowEx)
+            if (args.ThrowException)
             {
                 throw;
             }

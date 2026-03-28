@@ -25,8 +25,8 @@ internal partial class ThrowEx
     /// <returns>True if exception would be thrown, false otherwise</returns>
     internal static bool Custom(string message, bool isReallyThrowing = true, string secondMessage = "")
     {
-        string joined = string.Join(" ", message, secondMessage);
-        string? exceptionMessage = Exceptions.Custom(FullNameOfExecutedCode(), joined);
+        string joinedMessage = string.Join(" ", message, secondMessage);
+        string? exceptionMessage = Exceptions.Custom(FullNameOfExecutedCode(), joinedMessage);
         return ThrowIsNotNull(exceptionMessage, isReallyThrowing);
     }
 
@@ -38,7 +38,7 @@ internal partial class ThrowEx
     internal static string FullNameOfExecutedCode()
     {
         Tuple<string, string, string> placeOfException = Exceptions.PlaceOfException();
-        string fullName = FullNameOfExecutedCode(placeOfException.Item1, placeOfException.Item2, true);
+        string fullName = fullNameOfExecutedCode(placeOfException.Item1, placeOfException.Item2, true);
         return fullName;
     }
 
@@ -49,7 +49,7 @@ internal partial class ThrowEx
     /// <param name="methodName">Method name</param>
     /// <param name="isFromThrowEx">Whether called from ThrowEx</param>
     /// <returns>Full name with type and method</returns>
-    static string FullNameOfExecutedCode(object type, string methodName, bool isFromThrowEx = false)
+    static string fullNameOfExecutedCode(object type, string methodName, bool isFromThrowEx = false)
     {
         if (methodName == null)
         {
@@ -86,17 +86,17 @@ internal partial class ThrowEx
     /// <summary>
     /// Throws exception if string is not null
     /// </summary>
-    /// <param name="exception">Exception message</param>
+    /// <param name="exceptionMessage">Exception message text</param>
     /// <param name="isReallyThrowing">Whether to actually throw the exception</param>
     /// <returns>True if exception would be thrown, false otherwise</returns>
-    internal static bool ThrowIsNotNull(string? exception, bool isReallyThrowing = true)
+    internal static bool ThrowIsNotNull(string? exceptionMessage, bool isReallyThrowing = true)
     {
-        if (exception != null)
+        if (exceptionMessage != null)
         {
             Debugger.Break();
             if (isReallyThrowing)
             {
-                throw new Exception(exception);
+                throw new Exception(exceptionMessage);
             }
             return true;
         }

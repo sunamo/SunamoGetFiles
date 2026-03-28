@@ -15,8 +15,4 @@ internal class ChangeContentArgsGetFiles
     /// </summary>
     internal bool RemoveEmpty { get; set; } = false;
 
-    /// <summary>
-    /// Whether to switch first and second arguments
-    /// </summary>
-    internal bool SwitchFirstAndSecondArg { get; set; } = false;
 }

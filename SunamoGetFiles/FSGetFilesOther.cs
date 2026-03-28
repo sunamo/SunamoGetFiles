@@ -28,7 +28,7 @@ partial class FSGetFiles
         foreach (var item in files)
         {
             var extension = FS.GetNormalizedExtension(item);
-            if (extensions.Contains(extension)) foundFiles.Add(extension);
+            if (extensions.Contains(extension)) foundFiles.Add(item);
         }
 
         return foundFiles;
@@ -52,16 +52,13 @@ partial class FSGetFiles
     }
 
 
-
-
-
     /// <summary>
     /// Gets files which contain all specified strings in their content
     /// </summary>
     /// <param name="logger">Logger instance</param>
     /// <param name="source">Source folder path or list of file paths</param>
     /// <param name="mask">File mask pattern</param>
-    /// <param name="mustContains">List of strings that must all be present in file content</param>
+    /// <param name="list">List of strings that must all be present in file content</param>
     /// <returns>List of file paths that contain all specified strings</returns>
     public static
 #if ASYNC
@@ -69,24 +66,24 @@ partial class FSGetFiles
 #else
 List<string>
 #endif
-        FilesWhichContainsAll(ILogger logger, object source, string mask, IList<string> mustContains)
+        FilesWhichContainsAll(ILogger logger, object source, string mask, IList<string> list)
     {
-        var mustContainsCount = mustContains.Count();
+        var listCount = list.Count();
         var result = new List<string>();
-        IList<string>? files = null;
+        IList<string>? sourceFiles = null;
         if (source is IList<string>)
-            files = (IList<string>)source;
+            sourceFiles = (IList<string>)source;
         else
-            files = GetFilesEveryFolder(logger, source.ToString() ?? string.Empty, mask, true);
-        foreach (var item in files)
+            sourceFiles = GetFilesEveryFolder(logger, source.ToString() ?? string.Empty, mask, true);
+        foreach (var item in sourceFiles)
         {
             var fileContent =
 #if ASYNC
                 await
 #endif
                     File.ReadAllTextAsync(item);
-            if (mustContains.Where(text => fileContent.Contains(text)).Count() ==
-                mustContainsCount) result.Add(item);
+            if (list.Where(text => fileContent.Contains(text)).Count() ==
+                listCount) result.Add(item);
         }
 
         return result;
@@ -121,7 +118,7 @@ List<string>
         var files = new List<string>();
         foreach (var item in folders)
             foreach (var extension in extensions)
-                files.AddRange(GetFilesEveryFolder(logger, item, FS.MascFromExtension(extension), searchOption, args));
+                files.AddRange(GetFilesEveryFolder(logger, item, FS.MaskFromExtension(extension), searchOption, args));
         return files;
     }
 
@@ -166,6 +163,4 @@ Dictionary<string, string>
         foreach (var item in extensions) result.AddRange(GetFilesEveryFolder(logger, folder, "*" + item, searchOption));
         return result;
     }
-
-
 }

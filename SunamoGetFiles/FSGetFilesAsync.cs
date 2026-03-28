@@ -29,22 +29,22 @@ partial class FSGetFiles
     }
 
     /// <summary>
-    /// Gets files asynchronously from specified folder(s) with mask and search options.
+    /// Gets files from specified folder(s) with mask and search options.
     /// When Access Denied exception occurs, use GetFilesEveryFolder which searches in every subfolder.
     /// </summary>
     /// <param name="logger">Logger instance</param>
     /// <param name="folder">Folder path (can be semicolon-delimited for multiple folders)</param>
     /// <param name="mask">File mask (use GetFilesOfExtensions for multiple extensions)</param>
     /// <param name="searchOption">Search option (top directory only or all directories)</param>
-    /// <param name="getFilesArgs">Optional arguments for file search</param>
+    /// <param name="args">Optional arguments for file search</param>
     /// <returns>List of file paths</returns>
-    public static async Task<List<string>> GetFilesAsync(ILogger logger, string folder, string mask, SearchOption searchOption,
-        GetFilesEveryFolderArgs? getFilesArgs = null)
+    public static Task<List<string>> GetFilesAsync(ILogger logger, string folder, string mask, SearchOption searchOption,
+        GetFilesEveryFolderArgs? args = null)
     {
         if (!Directory.Exists(folder) && !folder.Contains(";"))
-            return new List<string>();
+            return Task.FromResult(new List<string>());
 
-        if (getFilesArgs == null!) getFilesArgs = new GetFilesEveryFolderArgs();
+        if (args == null!) args = new GetFilesEveryFolderArgs();
 
         var folders = SHSplit.Split(folder, ";");
         for (var i = 0; i < folders.Count; i++)
@@ -55,14 +55,14 @@ partial class FSGetFiles
         {
             if (Directory.Exists(currentFolder))
             {
-                return GetFilesEveryFolder(logger, currentFolder, mask, searchOption);
+                return Task.FromResult(GetFilesEveryFolder(logger, currentFolder, mask, searchOption));
             }
         }
 
         for (var i = 0; i < list.Count; i++)
             list[i] = SH.FirstCharUpper(list[i]);
 
-        if (getFilesArgs.TrimRootFolderAndLeadingBackslashes)
+        if (args.TrimRootFolderAndLeadingBackslashes)
         {
             foreach (var currentFolder in folders)
             {
@@ -74,36 +74,36 @@ partial class FSGetFiles
             }
         }
 
-        if (getFilesArgs.ExcludeFromLocationsContains != null)
+        if (args.ExcludeFromLocationsContains != null)
         {
-            foreach (var item in getFilesArgs.ExcludeFromLocationsContains)
+            foreach (var item in args.ExcludeFromLocationsContains)
                 list = list.Where(filePath => !filePath.Contains(item)).ToList();
         }
 
-        Dictionary<string, DateTime>? dictLastModified = null;
-        var isLastModifiedFromFn = getFilesArgs.LastModifiedFromFn != null;
-        if (getFilesArgs.DontIncludeNewest || getFilesArgs.ByDateOfLastModifiedAsc || isLastModifiedFromFn)
+        Dictionary<string, DateTime>? lastModifiedByFile = null;
+        var hasLastModifiedFromFileName = args.LastModifiedFromFileName != null;
+        if (args.DontIncludeNewest || args.ByDateOfLastModifiedAsc || hasLastModifiedFromFileName)
         {
-            dictLastModified = new Dictionary<string, DateTime>();
+            lastModifiedByFile = new Dictionary<string, DateTime>();
             foreach (var item in list)
             {
                 DateTime? lastModified = null;
-                if (isLastModifiedFromFn)
-                    lastModified = getFilesArgs.LastModifiedFromFn?.Invoke(Path.GetFileNameWithoutExtension(item));
+                if (hasLastModifiedFromFileName)
+                    lastModified = args.LastModifiedFromFileName?.Invoke(Path.GetFileNameWithoutExtension(item));
                 if (!lastModified.HasValue)
                     lastModified = FS.LastModified(item);
-                dictLastModified.Add(item, lastModified.Value);
+                lastModifiedByFile.Add(item, lastModified.Value);
             }
 
-            list = dictLastModified.OrderBy(pair => pair.Value).Select(pair => pair.Key).ToList();
+            list = lastModifiedByFile.OrderBy(pair => pair.Value).Select(pair => pair.Key).ToList();
         }
 
-        if (getFilesArgs.DontIncludeNewest)
+        if (args.DontIncludeNewest)
             list.RemoveAt(list.Count - 1);
 
-        if (getFilesArgs.ExcludeWithMethod != null)
-            getFilesArgs.ExcludeWithMethod?.Invoke(list);
+        if (args.ExcludeWithMethod != null)
+            args.ExcludeWithMethod?.Invoke(list);
 
-        return list;
+        return Task.FromResult(list);
     }
 }

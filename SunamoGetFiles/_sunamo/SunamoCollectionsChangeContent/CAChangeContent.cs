@@ -10,7 +10,7 @@ internal class CAChangeContent
     /// </summary>
     /// <param name="args">Optional arguments for controlling removal</param>
     /// <param name="list">List to modify</param>
-    private static void RemoveNullOrEmpty(ChangeContentArgsGetFiles? args, List<string> list)
+    private static void removeNullOrEmpty(ChangeContentArgsGetFiles? args, List<string> list)
     {
         if (args != null)
         {
@@ -47,7 +47,7 @@ internal class CAChangeContent
         {
             list[i] = func.Invoke(list[i]);
         }
-        RemoveNullOrEmpty(args, list);
+        removeNullOrEmpty(args, list);
         return list;
     }
 }

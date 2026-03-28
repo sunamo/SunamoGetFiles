@@ -9,11 +9,11 @@ internal sealed partial class Exceptions
     /// <summary>
     /// Checks and formats prefix text for exception messages
     /// </summary>
-    /// <param name="before">Prefix text</param>
+    /// <param name="prefix">Prefix text</param>
     /// <returns>Formatted prefix with colon and space, or empty string</returns>
-    internal static string CheckBefore(string before)
+    internal static string CheckBefore(string prefix)
     {
-        return string.IsNullOrWhiteSpace(before) ? string.Empty : before + ": ";
+        return string.IsNullOrWhiteSpace(prefix) ? string.Empty : prefix + ": ";
     }
 
     /// <summary>
@@ -54,14 +54,14 @@ internal sealed partial class Exceptions
         string methodName = string.Empty;
         for (; lineIndex < lines.Count; lineIndex++)
         {
-            var item = lines[lineIndex];
+            var line = lines[lineIndex];
             if (isFillAlsoFirstTwo)
-                if (!item.StartsWith("   at ThrowEx"))
+                if (!line.StartsWith("   at ThrowEx"))
                 {
-                    TypeAndMethodName(item, out type, out methodName);
+                    TypeAndMethodName(line, out type, out methodName);
                     isFillAlsoFirstTwo = false;
                 }
-            if (item.StartsWith("at System."))
+            if (line.StartsWith("at System."))
             {
                 lines.Add(string.Empty);
                 lines.Add(string.Empty);
@@ -103,11 +103,6 @@ internal sealed partial class Exceptions
         var methodName = methodBase.Name;
         return methodName;
     }
-    #endregion
-
-    #region IsNullOrWhitespace
-    internal readonly static StringBuilder AdditionalInfoInnerStringBuilder = new();
-    internal readonly static StringBuilder AdditionalInfoStringBuilder = new();
     #endregion
 
     #region OnlyReturnString

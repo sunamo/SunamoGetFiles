@@ -50,12 +50,12 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Function to get last modified date from filename
     /// </summary>
-    public Func<string, DateTime?>? LastModifiedFromFn { get; set; }
+    public Func<string, DateTime?>? LastModifiedFromFileName { get; set; }
 
     /// <summary>
     /// Whether to use mask from extension
     /// </summary>
-    public bool UseMascFromExtension { get; set; } = false;
+    public bool UseMaskFromExtension { get; set; } = false;
 
     /// <summary>
     /// Whether to use wildcard matching
@@ -75,12 +75,12 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Filter function for found files
     /// </summary>
-    public Func<string, bool>? FilterFoundedFiles { get; set; }
+    public Func<string, bool>? FilterFoundFiles { get; set; }
 
     /// <summary>
     /// Filter function for found folders
     /// </summary>
-    public Func<string, bool>? FilterFoundedFolders { get; set; }
+    public Func<string, bool>? FilterFoundFolders { get; set; }
 
     /// <summary>
     /// Returns null if there are more than X files found (-1 to disable)
@@ -90,32 +90,32 @@ public class GetFilesEveryFolderArgs
     /// <summary>
     /// Action to insert progress bar value
     /// </summary>
-    public Action<double>? InsertPb { get; set; } = null;
+    public Action<double>? InsertProgressBar { get; set; } = null;
 
     /// <summary>
     /// Action to insert progress bar time value
     /// </summary>
-    public Action<double>? InsertPbTime { get; set; } = null;
+    public Action<double>? InsertProgressBarTime { get; set; } = null;
 
     /// <summary>
     /// Whether to throw exceptions or suppress them
     /// </summary>
-    public bool ThrowEx { get; set; } = false;
+    public bool ThrowException { get; set; } = false;
 
     /// <summary>
     /// Action to update progress bar text
     /// </summary>
-    public Action<string>? UpdateTbPb { get; set; } = null;
+    public Action<string>? UpdateTextProgressBar { get; set; } = null;
 
     /// <summary>
     /// Whether to use progress bar
     /// </summary>
-    public bool UsePb { get; set; } = false;
+    public bool UseProgressBar { get; set; } = false;
 
     /// <summary>
     /// Whether to use progress bar with time
     /// </summary>
-    public bool UsePbTime { get; set; } = false;
+    public bool UseProgressBarTime { get; set; } = false;
 
     /// <summary>
     /// List of folder names to ignore during search
