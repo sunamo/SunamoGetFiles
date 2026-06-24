@@ -1,16 +1,7 @@
 namespace SunamoGetFiles;
 
-/// <summary>
-/// Provides helper methods for file operations
-/// </summary>
 partial class FSGetFiles
 {
-    /// <summary>
-    /// Filters file list according to GetFilesEveryFolderArgs settings
-    /// </summary>
-    /// <param name="list">List of file paths to filter</param>
-    /// <param name="folders">Folders to process</param>
-    /// <param name="args">Arguments containing filter settings</param>
     public static void FilterByGetFilesArgs(List<string> list, IEnumerable<string> folders, GetFilesEveryFolderArgs args)
     {
         if (args == null) args = new GetFilesEveryFolderArgs();
