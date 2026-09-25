@@ -24,11 +24,6 @@ internal class Program
             RunInDebugAsync = RunInDebug,
             ServiceCollection = Services,
             IsDebug =
-#if DEBUG
-            true
-#else
-false
-#endif
         });
     }
 
