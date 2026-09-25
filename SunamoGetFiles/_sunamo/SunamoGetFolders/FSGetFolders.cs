@@ -1,7 +1,18 @@
 namespace SunamoGetFiles._sunamo.SunamoGetFolders;
 
+/// <summary>
+/// Folder system helper methods
+/// </summary>
 internal class FSGetFolders
 {
+    /// <summary>
+    /// Gets folders recursively from every folder
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="result">Output list of folders</param>
+    /// <param name="folder">Root folder to search</param>
+    /// <param name="searchPattern">Search pattern for folders</param>
+    /// <param name="args">Arguments for folder search</param>
     internal static void GetFoldersEveryFolder(ILogger logger, List<string> result, string folder, string searchPattern, GetFoldersEveryFolderArgs args)
     {
         if (logger == null)

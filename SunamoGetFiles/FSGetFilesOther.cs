@@ -2,11 +2,24 @@ namespace SunamoGetFiles;
 
 partial class FSGetFiles
 {
+    /// <summary>
+    /// Gets files with specified extension from folder (non-recursive)
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Folder path to search</param>
+    /// <param name="extension">File extension without dot (e.g., "txt", "cs")</param>
+    /// <returns>List of file paths with specified extension</returns>
     public static List<string> FilesOfExtension(ILogger logger, string folder, string extension)
     {
         return GetFilesEveryFolder(logger, folder, "*." + extension, SearchOption.TopDirectoryOnly);
     }
 
+    /// <summary>
+    /// Gets files with any of specified extensions from folder recursively
+    /// </summary>
+    /// <param name="folder">Folder path to search</param>
+    /// <param name="extensions">List of extensions to search for</param>
+    /// <returns>List of file paths with any of specified extensions</returns>
     public static List<string> FilesOfExtensionsArray(string folder, List<string> extensions)
     {
         var foundFiles = new List<string>();
@@ -21,6 +34,11 @@ partial class FSGetFiles
         return foundFiles;
     }
 
+    /// <summary>
+    /// Gets total size of files in human-readable format
+    /// </summary>
+    /// <param name="files">List of file paths</param>
+    /// <returns>Total size in automatically determined unit (B, KB, MB, GB, TB)</returns>
     public static string GetFilesSize(List<string> files)
     {
         long size = 0;
@@ -34,6 +52,14 @@ partial class FSGetFiles
     }
 
 
+    /// <summary>
+    /// Gets files which contain all specified strings in their content
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="source">Source folder path or list of file paths</param>
+    /// <param name="mask">File mask pattern</param>
+    /// <param name="list">List of strings that must all be present in file content</param>
+    /// <returns>List of file paths that contain all specified strings</returns>
     public static
         async Task<List<string>>
         FilesWhichContainsAll(ILogger logger, object source, string mask, IList<string> list)
@@ -55,7 +81,13 @@ partial class FSGetFiles
 
         return result;
     }
-
+    /// <summary>
+    /// Gets FileInfo array for files with specified extensions
+    /// </summary>
+    /// <param name="folder">Folder path to search</param>
+    /// <param name="searchOption">Search option (top directory only or all directories)</param>
+    /// <param name="extensions">Extensions to search for</param>
+    /// <returns>Array of FileInfo objects</returns>
     public static FileInfo[] GetFileInfosOfExtensions(string folder, SearchOption searchOption, params string[] extensions)
     {
         var result = new List<FileInfo>();
@@ -64,6 +96,15 @@ partial class FSGetFiles
         return result.ToArray();
     }
 
+    /// <summary>
+    /// Gets all files from multiple folders with specified extensions
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folders">List of folder paths to search</param>
+    /// <param name="extensions">List of file extensions</param>
+    /// <param name="searchOption">Search option (top directory only or all directories)</param>
+    /// <param name="args">Optional arguments for file search</param>
+    /// <returns>List of all file paths from all folders with specified extensions</returns>
     public static List<string> AllFilesInFolders(ILogger logger, IList<string> folders, IList<string> extensions, SearchOption searchOption,
         GetFilesEveryFolderArgs? args = null)
     {
@@ -74,6 +115,14 @@ partial class FSGetFiles
         return files;
     }
 
+    /// <summary>
+    /// Gets files with their content in dictionary
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Folder path to search</param>
+    /// <param name="mask">File mask pattern</param>
+    /// <param name="searchOption">Search option (top directory only or all directories)</param>
+    /// <returns>Dictionary where keys are file paths and values are file contents</returns>
     public static
     async Task<Dictionary<string, string>>
     GetFilesWithContentInDictionary(ILogger logger, string folder, string mask, SearchOption searchOption)
@@ -86,6 +135,14 @@ partial class FSGetFiles
         return result;
     }
 
+    /// <summary>
+    /// Gets files with any of specified extensions
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Folder path to search</param>
+    /// <param name="searchOption">Search option (top directory only or all directories)</param>
+    /// <param name="extensions">Extensions to search for</param>
+    /// <returns>List of file paths with any of specified extensions</returns>
     public static List<string> GetFilesOfExtensions(ILogger logger, string folder, SearchOption searchOption, params string[] extensions)
     {
         var result = new List<string>();

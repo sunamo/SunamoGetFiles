@@ -1,12 +1,28 @@
 namespace SunamoGetFiles._sunamo.SunamoExceptions;
 
+/// <summary>
+/// Exception throwing helper methods
+/// </summary>
 internal partial class ThrowEx
 {
+    /// <summary>
+    /// Throws custom exception from Exception object
+    /// </summary>
+    /// <param name="ex">Exception to throw</param>
+    /// <param name="isReallyThrowing">Whether to actually throw the exception</param>
+    /// <returns>True if exception would be thrown, false otherwise</returns>
     internal static bool Custom(Exception ex, bool isReallyThrowing = true)
     {
         return Custom(Exceptions.TextOfExceptions(ex), isReallyThrowing);
     }
 
+    /// <summary>
+    /// Throws custom exception with message
+    /// </summary>
+    /// <param name="message">Main exception message</param>
+    /// <param name="isReallyThrowing">Whether to actually throw the exception</param>
+    /// <param name="secondMessage">Additional message</param>
+    /// <returns>True if exception would be thrown, false otherwise</returns>
     internal static bool Custom(string message, bool isReallyThrowing = true, string secondMessage = "")
     {
         var joinedMessage = string.Join(" ", message, secondMessage);
@@ -15,6 +31,10 @@ internal partial class ThrowEx
     }
 
     #region Other
+    /// <summary>
+    /// Gets full name of currently executing code
+    /// </summary>
+    /// <returns>Full name with type and method</returns>
     internal static string FullNameOfExecutedCode()
     {
         var placeOfException = Exceptions.PlaceOfException();
@@ -22,6 +42,13 @@ internal partial class ThrowEx
         return fullName;
     }
 
+    /// <summary>
+    /// Gets full name of executing code from type and method name
+    /// </summary>
+    /// <param name="type">Type object</param>
+    /// <param name="methodName">Method name</param>
+    /// <param name="isFromThrowEx">Whether called from ThrowEx</param>
+    /// <returns>Full name with type and method</returns>
     static string fullNameOfExecutedCode(object type, string methodName, bool isFromThrowEx = false)
     {
         if (methodName == null)
@@ -56,6 +83,12 @@ internal partial class ThrowEx
         return string.Concat(typeFullName, ".", methodName);
     }
 
+    /// <summary>
+    /// Throws exception if string is not null
+    /// </summary>
+    /// <param name="exceptionMessage">Exception message text</param>
+    /// <param name="isReallyThrowing">Whether to actually throw the exception</param>
+    /// <returns>True if exception would be thrown, false otherwise</returns>
     internal static bool ThrowIsNotNull(string? exceptionMessage, bool isReallyThrowing = true)
     {
         if (exceptionMessage != null)

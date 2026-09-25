@@ -1,13 +1,34 @@
 namespace SunamoGetFiles;
 
+/// <summary>
+/// Provides methods for getting files from the file system
+/// </summary>
 public partial class FSGetFiles
 {
+    /// <summary>
+    /// Gets files from every folder
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Root folder to search</param>
+    /// <param name="mask">File mask (supports semicolon-separated masks)</param>
+    /// <param name="isRecursive">Whether to search recursively</param>
+    /// <param name="args">Optional arguments for file search</param>
+    /// <returns>List of file paths</returns>
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool isRecursive,
         GetFilesEveryFolderArgs? args = null)
     {
         return GetFilesEveryFolder(logger, folder, mask, isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, args);
     }
 
+    /// <summary>
+    /// Gets files from every folder with specified search options
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="folder">Root folder to search</param>
+    /// <param name="mask">File mask (supports semicolon-separated masks)</param>
+    /// <param name="searchOption">Search option (top directory only or all directories)</param>
+    /// <param name="args">Optional arguments for file search</param>
+    /// <returns>List of file paths</returns>
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask = "*", SearchOption searchOption = SearchOption.AllDirectories,
         GetFilesEveryFolderArgs? args = null)
     {

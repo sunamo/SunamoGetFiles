@@ -1,7 +1,15 @@
 namespace SunamoGetFiles._sunamo.SunamoCollectionsChangeContent;
 
+/// <summary>
+/// Collection change content helper methods
+/// </summary>
 internal class CAChangeContent
 {
+    /// <summary>
+    /// Removes null or empty values from list based on args settings
+    /// </summary>
+    /// <param name="args">Optional arguments for controlling removal</param>
+    /// <param name="list">List to modify</param>
     private static void removeNullOrEmpty(ChangeContentArgsGetFiles? args, List<string> list)
     {
         if (args != null)
@@ -23,6 +31,16 @@ internal class CAChangeContent
         }
     }
 
+    /// <summary>
+    /// Changes content of list by applying function to each element.
+    /// Directly edits the list in place.
+    /// If not every element fulfills pattern, it's good to remove null or default values from result.
+    /// The last number in method name indicates the number of parameters passed to the delegate.
+    /// </summary>
+    /// <param name="args">Optional arguments for post-processing</param>
+    /// <param name="list">List to modify</param>
+    /// <param name="func">Function to apply to each element</param>
+    /// <returns>Modified list</returns>
     internal static List<string> ChangeContent0(ChangeContentArgsGetFiles? args, List<string> list, Func<string, string> func)
     {
         for (int i = 0; i < list.Count; i++)

@@ -1,13 +1,27 @@
 namespace SunamoGetFiles._sunamo.SunamoExceptions;
 
+/// <summary>
+/// Exception handling helper methods
+/// </summary>
 internal sealed partial class Exceptions
 {
     #region Other
+    /// <summary>
+    /// Checks and formats prefix text for exception messages
+    /// </summary>
+    /// <param name="prefix">Prefix text</param>
+    /// <returns>Formatted prefix with colon and space, or empty string</returns>
     internal static string CheckBefore(string prefix)
     {
         return string.IsNullOrWhiteSpace(prefix) ? string.Empty : prefix + ": ";
     }
 
+    /// <summary>
+    /// Gets text of exception including inner exceptions
+    /// </summary>
+    /// <param name="ex">Exception to process</param>
+    /// <param name="isIncludingInner">Whether to include inner exceptions</param>
+    /// <returns>Text of exception(s)</returns>
     internal static string TextOfExceptions(Exception ex, bool isIncludingInner = true)
     {
         if (ex == null) return string.Empty;
@@ -24,6 +38,11 @@ internal sealed partial class Exceptions
         return result;
     }
 
+    /// <summary>
+    /// Gets information about the place where exception occurred
+    /// </summary>
+    /// <param name="isFillAlsoFirstTwo">Whether to fill first two output values</param>
+    /// <returns>Tuple with type name, method name, and stack trace</returns>
     internal static Tuple<string, string, string> PlaceOfException(bool isFillAlsoFirstTwo = true)
     {
         StackTrace stackTrace = new();
@@ -52,6 +71,12 @@ internal sealed partial class Exceptions
         return new Tuple<string, string, string>(type, methodName, string.Join(Environment.NewLine, lines));
     }
 
+    /// <summary>
+    /// Extracts type and method name from stack trace line
+    /// </summary>
+    /// <param name="line">Stack trace line</param>
+    /// <param name="type">Output: type name</param>
+    /// <param name="methodName">Output: method name</param>
     internal static void TypeAndMethodName(string line, out string type, out string methodName)
     {
         var trimmedText = line.Split("at ")[1].Trim();
@@ -62,6 +87,11 @@ internal sealed partial class Exceptions
         type = string.Join(".", pathParts);
     }
 
+    /// <summary>
+    /// Gets name of calling method
+    /// </summary>
+    /// <param name="frameIndex">Stack frame index (1 = immediate caller)</param>
+    /// <returns>Method name</returns>
     internal static string CallingMethod(int frameIndex = 1)
     {
         StackTrace stackTrace = new();
@@ -76,6 +106,12 @@ internal sealed partial class Exceptions
     #endregion
 
     #region OnlyReturnString
+    /// <summary>
+    /// Creates custom exception message with optional prefix
+    /// </summary>
+    /// <param name="before">Prefix text</param>
+    /// <param name="message">Main message</param>
+    /// <returns>Formatted message</returns>
     internal static string? Custom(string before, string message)
     {
         return CheckBefore(before) + message;
