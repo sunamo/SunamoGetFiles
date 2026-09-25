@@ -16,8 +16,7 @@ internal class SHParts
         int lastIndex = text.LastIndexOf(delimiter.ToString() ?? string.Empty);
         if (lastIndex != -1)
         {
-            string result = text.Substring(0, lastIndex);
-            return result;
+            return text.Substring(0, lastIndex);
         }
         return text;
     }

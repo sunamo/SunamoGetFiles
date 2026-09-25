@@ -25,7 +25,7 @@ internal partial class ThrowEx
     /// <returns>True if exception would be thrown, false otherwise</returns>
     internal static bool Custom(string message, bool isReallyThrowing = true, string secondMessage = "")
     {
-        string joinedMessage = string.Join(" ", message, secondMessage);
+        var joinedMessage = string.Join(" ", message, secondMessage);
         string? exceptionMessage = Exceptions.Custom(FullNameOfExecutedCode(), joinedMessage);
         return ThrowIsNotNull(exceptionMessage, isReallyThrowing);
     }
@@ -37,8 +37,8 @@ internal partial class ThrowEx
     /// <returns>Full name with type and method</returns>
     internal static string FullNameOfExecutedCode()
     {
-        Tuple<string, string, string> placeOfException = Exceptions.PlaceOfException();
-        string fullName = fullNameOfExecutedCode(placeOfException.Item1, placeOfException.Item2, true);
+        var placeOfException = Exceptions.PlaceOfException();
+        var fullName = fullNameOfExecutedCode(placeOfException.Item1, placeOfException.Item2, true);
         return fullName;
     }
 
@@ -77,7 +77,7 @@ internal partial class ThrowEx
         }
         else
         {
-            Type typeInstance = type.GetType();
+            var typeInstance = type.GetType();
             typeFullName = typeInstance.FullName ?? "Type cannot be get via type.GetType()";
         }
         return string.Concat(typeFullName, ".", methodName);

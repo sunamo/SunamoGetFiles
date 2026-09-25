@@ -22,7 +22,7 @@ internal class FS
     /// <returns>Formatted size string</returns>
     internal static string GetSizeInAutoString(double size)
     {
-        ComputerSizeUnitsGetFiles unit = ComputerSizeUnitsGetFiles.B;
+        var unit = ComputerSizeUnitsGetFiles.B;
         if (size > NumConsts.KB)
         {
             unit = ComputerSizeUnitsGetFiles.KB;
@@ -44,7 +44,7 @@ internal class FS
             size /= NumConsts.KB;
         }
 
-        return size + " " + unit.ToString();
+        return $"{size} {unit}";
     }
 
     /// <summary>

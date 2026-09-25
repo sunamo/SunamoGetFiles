@@ -61,11 +61,7 @@ partial class FSGetFiles
     /// <param name="list">List of strings that must all be present in file content</param>
     /// <returns>List of file paths that contain all specified strings</returns>
     public static
-#if ASYNC
         async Task<List<string>>
-#else
-List<string>
-#endif
         FilesWhichContainsAll(ILogger logger, object source, string mask, IList<string> list)
     {
         var listCount = list.Count();
@@ -78,10 +74,7 @@ List<string>
         foreach (var item in sourceFiles)
         {
             var fileContent =
-#if ASYNC
-                await
-#endif
-                    File.ReadAllTextAsync(item);
+                await FileAsync.ReadAllTextAsync(item);
             if (list.Where(text => fileContent.Contains(text)).Count() ==
                 listCount) result.Add(item);
         }
@@ -131,21 +124,14 @@ List<string>
     /// <param name="searchOption">Search option (top directory only or all directories)</param>
     /// <returns>Dictionary where keys are file paths and values are file contents</returns>
     public static
-#if ASYNC
     async Task<Dictionary<string, string>>
-#else
-Dictionary<string, string>
-#endif
     GetFilesWithContentInDictionary(ILogger logger, string folder, string mask, SearchOption searchOption)
     {
         var result = new Dictionary<string, string>();
         var files = GetFilesEveryFolder(logger, folder, mask, searchOption);
         foreach (var file in files)
             result.Add(file,
-#if ASYNC
-                await
-#endif
-                    File.ReadAllTextAsync(file));
+                await FileAsync.ReadAllTextAsync(file));
         return result;
     }
 

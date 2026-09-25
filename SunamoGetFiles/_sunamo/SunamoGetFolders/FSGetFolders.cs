@@ -17,7 +17,7 @@ internal class FSGetFolders
     {
         if (logger == null)
         {
-            ArgumentNullException.ThrowIfNull(logger, "logger");
+            throw new ArgumentNullException("logger");
         }
         try
         {
