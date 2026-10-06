@@ -1,5 +1,10 @@
 # SunamoGetFiles
 
+## Short description
+
+Knihovna pro získávání souborů ze souborového systému s automatickým zachycením výjimek. Podporuje rekurzivní procházení složek, progress bar a flexibilní filtrování. Součástí je Runner a testy.
+
+
 A .NET library for retrieving files from the file system with automatic exception handling, recursive folder traversal, progress bar support, and flexible filtering options.
 
 ## Overview

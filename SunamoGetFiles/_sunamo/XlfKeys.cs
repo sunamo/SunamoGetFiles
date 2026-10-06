@@ -1,8 +1,5 @@
 namespace SunamoGetFiles._sunamo;
 
-/// <summary>
-/// Translation keys for localization
-/// </summary>
 internal class XlfKeys
 {
     internal const string Loading = "Loading";

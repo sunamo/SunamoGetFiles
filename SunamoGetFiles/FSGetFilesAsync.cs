@@ -1,16 +1,7 @@
 namespace SunamoGetFiles;
 
-/// <summary>
-/// Provides asynchronous methods for getting files from the file system
-/// </summary>
 partial class FSGetFiles
 {
-    /// <summary>
-    /// Gets file sizes for a list of files
-    /// </summary>
-    /// <param name="logger">Logger instance</param>
-    /// <param name="files">List of file paths</param>
-    /// <returns>List of file sizes in bytes</returns>
     public static List<long> GetFilesSizes(ILogger logger, List<string> files)
     {
         var sizes = new List<long>();
@@ -28,16 +19,6 @@ partial class FSGetFiles
         return sizes;
     }
 
-    /// <summary>
-    /// Gets files from specified folder(s) with mask and search options.
-    /// When Access Denied exception occurs, use GetFilesEveryFolder which searches in every subfolder.
-    /// </summary>
-    /// <param name="logger">Logger instance</param>
-    /// <param name="folder">Folder path (can be semicolon-delimited for multiple folders)</param>
-    /// <param name="mask">File mask (use GetFilesOfExtensions for multiple extensions)</param>
-    /// <param name="searchOption">Search option (top directory only or all directories)</param>
-    /// <param name="args">Optional arguments for file search</param>
-    /// <returns>List of file paths</returns>
     public static Task<List<string>> GetFilesAsync(ILogger logger, string folder, string mask, SearchOption searchOption,
         GetFilesEveryFolderArgs? args = null)
     {
