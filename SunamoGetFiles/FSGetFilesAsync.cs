@@ -2,6 +2,12 @@ namespace SunamoGetFiles;
 
 partial class FSGetFiles
 {
+    /// <summary>
+    /// Get files sizes.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="files">The files.</param>
+    /// <returns>The get files sizes result.</returns>
     public static List<long> GetFilesSizes(ILogger logger, List<string> files)
     {
         var sizes = new List<long>();
@@ -19,6 +25,15 @@ partial class FSGetFiles
         return sizes;
     }
 
+    /// <summary>
+    /// Get files async.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="folder">The folder.</param>
+    /// <param name="mask">The mask.</param>
+    /// <param name="searchOption">The search option.</param>
+    /// <param name="args">The args.</param>
+    /// <returns>The get files async result.</returns>
     public static Task<List<string>> GetFilesAsync(ILogger logger, string folder, string mask, SearchOption searchOption,
         GetFilesEveryFolderArgs? args = null)
     {

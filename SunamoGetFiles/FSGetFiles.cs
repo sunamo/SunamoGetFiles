@@ -1,13 +1,34 @@
 namespace SunamoGetFiles;
 
+/// <summary>
+/// Represents the FS get files type.
+/// </summary>
 public partial class FSGetFiles
 {
+    /// <summary>
+    /// Get files every folder.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="folder">The folder.</param>
+    /// <param name="mask">The mask.</param>
+    /// <param name="isRecursive">The is recursive.</param>
+    /// <param name="args">The args.</param>
+    /// <returns>The get files every folder result.</returns>
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, bool isRecursive,
         GetFilesEveryFolderArgs? args = null)
     {
         return GetFilesEveryFolder(logger, folder, mask, isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, args);
     }
 
+    /// <summary>
+    /// Get files every folder.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="folder">The folder.</param>
+    /// <param name="mask">The mask.</param>
+    /// <param name="searchOption">The search option.</param>
+    /// <param name="args">The args.</param>
+    /// <returns>The get files every folder result.</returns>
     public static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask = "*", SearchOption searchOption = SearchOption.AllDirectories,
         GetFilesEveryFolderArgs? args = null)
     {

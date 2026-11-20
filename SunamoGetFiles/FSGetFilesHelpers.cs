@@ -2,6 +2,12 @@ namespace SunamoGetFiles;
 
 partial class FSGetFiles
 {
+    /// <summary>
+    /// Filter by get files args.
+    /// </summary>
+    /// <param name="list">The list.</param>
+    /// <param name="folders">The folders.</param>
+    /// <param name="args">The args.</param>
     public static void FilterByGetFilesArgs(List<string> list, IEnumerable<string> folders, GetFilesEveryFolderArgs args)
     {
         if (args == null) args = new GetFilesEveryFolderArgs();

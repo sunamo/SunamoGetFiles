@@ -2,6 +2,14 @@ namespace SunamoGetFiles;
 
 partial class FSGetFiles
 {
+    /// <summary>
+    /// Files of extensions.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="folder">The folder.</param>
+    /// <param name="args">The args.</param>
+    /// <param name="extensionsWithDot">The extensions with dot.</param>
+    /// <returns>The files of extensions result.</returns>
     public static Dictionary<string, List<string>> FilesOfExtensions(ILogger logger, string folder, GetFilesEveryFolderArgs args, params string[] extensionsWithDot)
     {
         var filesByExtension = new Dictionary<string, List<string>>();
