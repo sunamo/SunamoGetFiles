@@ -31,7 +31,7 @@ public partial class FSGetFiles
 
         if (args.UseProgressBarTime)
         {
-            var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FoldersTree) + "...";
+            var message = "Loading" + " " + "FoldersTree" + "...";
             args.InsertProgressBarTime?.Invoke(60);
             args.UpdateTextProgressBar?.Invoke(message);
         }
@@ -54,7 +54,7 @@ public partial class FSGetFiles
 
         if (args.UseProgressBar)
         {
-            var message = Translate.FromKey(XlfKeys.Loading) + " " + Translate.FromKey(XlfKeys.FilesTree) + "...";
+            var message = "Loading" + " " + "FilesTree" + "...";
             args.InsertProgressBar?.Invoke(directories.Count);
             args.UpdateTextProgressBar?.Invoke(message);
         }
