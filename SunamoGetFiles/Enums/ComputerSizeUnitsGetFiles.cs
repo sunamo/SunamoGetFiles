@@ -1,6 +1,5 @@
 namespace SunamoGetFiles.Enums;
 
-// variables names: ok
 public enum ComputerSizeUnitsGetFiles : byte
 {
     Auto = 0,
